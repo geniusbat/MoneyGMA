@@ -1,0 +1,14 @@
+<div class="navBar">
+    {% load static %}
+    <script src="{% static 'baseStatic/navBar.js' %}"></script>
+    <div class="burger-menu" onclick="DisplayMenu()">
+        {% load static %}
+        <img src="{% static 'baseStatic/menu-icon.svg' %}" alt="" class="burger-icon">
+    </div>
+    
+    <div class="mainMenu" id="mainMenu">
+        <div class="mainMenu-item"><a href="#">Index</a></div>
+        <div class="mainMenu-item"><a href="#">Index</a></div>
+        <div class="mainMenu-item"><a href="#">Index</a></div>
+    </div>
+</div>

@@ -1,0 +1,46 @@
+.navBar {
+    height: 7vh;
+    background-color: aquamarine;
+    padding: 0.5vh 1vw 0.5vh 0.5vw;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.burger-menu {
+    height: 100%;
+}
+.burger-menu:after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+
+.burger-icon {
+    height: 100%;
+    width: 100%;
+}
+
+.mainMenu {
+    position: absolute;
+    width: 30%;
+    top: 7vh;
+    right: 0px;
+    z-index: 100;
+    display: none;
+    background-color: green;
+    padding: 0.5vh 0.9vw 1vh 2vw;
+    flex-direction: column;
+}
+
+.mainMenu-item {
+    text-align: end;
+    margin-top: 1vh;
+    padding-right: 1vw;
+    background-color: greenyellow;
+}
+
+.mainMenu-item > a {
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 700;
+}

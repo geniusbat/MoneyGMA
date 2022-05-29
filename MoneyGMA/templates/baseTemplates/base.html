@@ -16,8 +16,10 @@
         {% block navBar %}
             {% include "baseTemplates/navBar.html" %}
         {% endblock navBar %}
-        {% block content %}
-            Hello There!
-        {% endblock content %}
+        <div class="content">
+            {% block content %}
+                Hello There!
+            {% endblock content %}
+        </div>
     </body>
 </html>

@@ -1,0 +1,9 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'components/datePager.css' %}">
+<form class="datePager" action="{% url 'changeMonth' %}" method="post">
+    {% csrf_token %}
+    <input type="submit" value="<" name="datePager-left">
+    <span>{{ date }}</span>
+    <input type="hidden" name="currentDate" value="{{ date }}">
+    <input type="submit" value=">" name="datePager-right">
+</form>

@@ -1,0 +1,22 @@
+.spacer {
+    height: 5vh;
+}
+
+.expendedMoneyBar {
+    margin-left: 5vw;
+    margin-right: 5vw;
+    height: 20vh;
+    background-color: aliceblue;
+    display: flex;
+    flex-direction: row;
+}
+
+.expendedMoneyBar-category {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.expendedMoneyBar-title {
+    font-size: 20px;
+}

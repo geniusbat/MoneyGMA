@@ -6,10 +6,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
 {% endblock head %}
 {% block content %}
-    <h2>MoneyGMA</h2>
-    <h3>Hello there</h3>
-    <p>Im here!</p>
-    {% for expense in expenses %}
-        {{ expense }}
-    {% endfor %}
+    <div class="spacer"></div>
+    {% include "components/datePager.html" %}
+    <div class="spacer"></div>
+    <div class="expendedMoneyBar">
+        {% for category,data in moneyPerCategory.items %}
+            <div class="expendedMoneyBar-category" id="{{ category }}" style="background-color:{{data.color}};width:{{data.percent}}%;"><span class="expendedMoneyBar-title">{{ category }}</span></div>
+        {% endfor %}
+    </div>
 {% endblock content %}

@@ -1,9 +1,9 @@
 from django.db import models
-from django.utils.timezone import now
+from datetime import date, datetime
 from colorfield.fields import ColorField
 
 class ExpenseCategory(models.Model):
-    type = models.CharField("Type", max_length=20)
+    type = models.CharField("Type", max_length=20, primary_key=True)
     description = models.CharField("Description", max_length=100)
     color = ColorField("Color for category", format="hex", default='#FF0000')
 
@@ -16,8 +16,8 @@ class ExpenseCategory(models.Model):
 
 
 class Expense(models.Model):
-    date = models.DateTimeField("Date","date", default=now)
-    category = models.ForeignKey(ExpenseCategory, on_delete=models.SET_DEFAULT, default=None, blank=True, null=True)
+    date = models.DateField("Date","date", default=datetime.now)
+    category = models.ForeignKey(ExpenseCategory, to_field="type", on_delete=models.SET_DEFAULT, default=None, blank=True, null=True)
     money = models.FloatField("Money expended", default=0.0)
 
     class Meta:

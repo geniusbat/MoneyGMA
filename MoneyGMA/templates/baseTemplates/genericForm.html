@@ -10,10 +10,10 @@
         <h2>{{viewTitle}}</h2>
     {% endblock beforeForm %}
     {% block formContent %}
-        <form action="" method="post" class="flex-container">
+        <form action="" method="post" class="formContainer">
             {% csrf_token %}
             {% for field in form %}
-                <div class="fieldWrapper col-4">
+                <div class="fieldWrapper">
                     {{ field.errors }}
                     <div class="fieldWrapper-label">{{ field.label_tag }}</div>
                     {{ field }}

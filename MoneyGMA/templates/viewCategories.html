@@ -1,0 +1,28 @@
+{% extends 'baseTemplates/base.html' %}
+{% load static %}
+{% block head %}
+    {% load static %}
+    <title>MoneyGMA</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'viewCategories.css' %}">
+{% endblock head %}
+{% block content %}
+    <div class="spacer"></div>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Color</th>
+        </tr>
+        {% for category in categories %}
+            <tr style="height: 1px;" class="table-row">
+                <td><a href="{% url 'editCategory' category.type %}">{{ category.type }}</a></td>
+                <td>{{ category.description }}</td>
+                <td style="height: inherit;" class="colorCell"><div class="coloredBlock" style="background-color:{{ category.color }};"></div></td>
+            </tr>
+        {% endfor %}       
+    </table>
+    <div class="spacer"></div>
+    <div class="addCategoryLink">
+        <a href="{% url 'addCategory' %}">Add Category!</a>
+    </div>
+{% endblock content %}

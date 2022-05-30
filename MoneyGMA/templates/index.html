@@ -4,14 +4,25 @@
     {% load static %}
     <title>MoneyGMA</title>
     <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'components/datePager.css' %}"> <!--Add this whenever we use the date pager-->
 {% endblock head %}
 {% block content %}
     <div class="spacer"></div>
     {% include "components/datePager.html" %}
     <div class="spacer"></div>
+    <span class="totalExpended">Total: {{ totalExpended }}$</span>
+    <div class="spacer"></div>
     <div class="expendedMoneyBar">
         {% for category,data in moneyPerCategory.items %}
             <div class="expendedMoneyBar-category" id="{{ category }}" style="background-color:{{data.color}};width:{{data.percent}}%;"><span class="expendedMoneyBar-title">{{ category }}</span></div>
         {% endfor %}
+    </div>
+    <div class="spacer"></div>
+    <div class="viewMonthlyExpenses">
+        <a href="{% url 'viewMonthlyExpenses' month %}">View this month's expenses</a>
+    </div>
+    <div class="spacer"></div>
+    <div class="addExpenseLink">
+        <a href="{% url 'addExpense' %}">Add Expense!</a>
     </div>
 {% endblock content %}

@@ -1,0 +1,13 @@
+{% extends 'baseTemplates/base.html' %}
+{% load static %}
+{% block head %}
+    {% load static %}
+    <title>MoneyGMA</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+{% endblock head %}
+{% block content %}
+    <div class="spacer"></div>
+    {% for expense in  expenses %}
+        {{ expense }} <br>
+    {% endfor %}
+{% endblock content %}

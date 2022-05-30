@@ -20,3 +20,33 @@
 .expendedMoneyBar-title {
     font-size: 20px;
 }
+
+.totalExpended {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 730;
+}
+
+.viewMonthlyExpenses {
+    min-height: fit-content;
+    height: 5vh;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    background-color: blanchedalmond;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.addExpenseLink {
+    min-height: fit-content;
+    height: 5vh;
+    margin-left: 5vw;
+    margin-right: 5vw;
+    background-color: bisque;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

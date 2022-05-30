@@ -1,5 +1,5 @@
 from django.db import models
-from django.utils import timezone
+from django.utils.timezone import now
 from colorfield.fields import ColorField
 
 class ExpenseCategory(models.Model):
@@ -15,9 +15,8 @@ class ExpenseCategory(models.Model):
         return self.type
 
 
-
 class Expense(models.Model):
-    date = models.DateTimeField("Date","date", default=timezone.now())
+    date = models.DateTimeField("Date","date", default=now)
     category = models.ForeignKey(ExpenseCategory, on_delete=models.SET_DEFAULT, default=None, blank=True, null=True)
     money = models.FloatField("Money expended", default=0.0)
 

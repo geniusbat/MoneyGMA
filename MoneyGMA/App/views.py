@@ -14,8 +14,8 @@ def viewData()->dict:
     d["viewTitle"]=""
     d["formSubmit"]=""
     return d
-def getMonthlyExpenses(monthNum):
-    expenses = Expense.objects.filter(date__month=monthNum)
+def getMonthlyExpenses(year, monthNum):
+    expenses = Expense.objects.filter(date__year=year,date__month=monthNum)
     serializer = ExpenseSerializer(expenses, many=True)
     return JsonResponse(serializer.data, safe=False).content
 def getExpensesContext(expenses, date):
@@ -40,6 +40,7 @@ def getExpensesContext(expenses, date):
     context["expenses"] = expenses
     context["prettyDate"] = datetime.strftime(date,"%B, %Y")
     context["date"]= date
+    context["year"] = date.year
     context["month"] = date.month
     context["totalExpended"]=totalSum
     return context
@@ -50,7 +51,7 @@ def getExpensesContext(expenses, date):
 def index(request):
     template = "index.html"
     context = viewData(); context["viewShortTitle"]="MoneyGMA"; context["viewTitle"]="MoneyGMA"
-    expenses = json.loads(getMonthlyExpenses(date.today().month))
+    expenses = json.loads(getMonthlyExpenses(date.today().year, date.today().month))
     context = context | getExpensesContext(expenses, date.today())
     return render(request, template, context)
 
@@ -64,7 +65,7 @@ def changeMonth(request):
             currentDate = currentDate + timedelta(1*365/12)
         else:
             currentDate = currentDate - timedelta(1*365/12)
-        expenses = json.loads(getMonthlyExpenses(currentDate.month))
+        expenses = json.loads(getMonthlyExpenses(date.today().year, currentDate.month))
         context = context | getExpensesContext(expenses, currentDate)
         dateAsString = currentDate.strftime('%d-%m-%Y')
         return HttpResponseRedirect("/"+dateAsString)
@@ -74,12 +75,12 @@ def changeMonth(request):
 def viewExpenses(request, date:datetime):
     template = "index.html"
     context = viewData(); context["viewShortTitle"]="MoneyGMA"; context["viewTitle"]="MoneyGMA"
-    expenses = json.loads(getMonthlyExpenses(date.month))
+    expenses = json.loads(getMonthlyExpenses(date.year, date.month))
     context = context | getExpensesContext(expenses, date)
     return render(request, template, context)
 
-def viewMonthlyExpenses(request, monthNum):
-    expenses = json.loads(getMonthlyExpenses(monthNum))
+def viewMonthlyExpenses(request, year, monthNum):
+    expenses = json.loads(getMonthlyExpenses(year, monthNum))
     context = viewData(); context["viewShortTitle"]="MoneyGMA"; context["viewTitle"]="MoneyGMA"
     context["viewing"] = "This month's expenses"
     return partiallyViewExpenses(request, expenses, context)

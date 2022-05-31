@@ -5,6 +5,7 @@
     <title>MoneyGMA</title>
     <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'components/datePager.css' %}"> <!--Add this whenever we use the date pager-->
+    <script src="{% static 'index.js' %}"></script>
 {% endblock head %}
 {% block content %}
     <div class="spacer"></div>
@@ -14,7 +15,7 @@
     <div class="spacer"></div>
     <div class="expendedMoneyBar">
         {% for category,data in moneyPerCategory.items %}
-            <div class="expendedMoneyBar-category" id="{{ category }}" style="background-color:{{data.color}}; width:{{data.percent}}%;">
+            <div class="expendedMoneyBar-category" id="{{ category }}" style="background-color:{{data.color}}; width:{{data.percent}}%;" onClick='categoryClick("floater-{{ category }}")'>
                 <div class="expendedMoneyBar-inCategory" id="floater-{{ category }}">
                     {{ data.expended }}$
                 </div>
@@ -23,8 +24,17 @@
         {% endfor %}
     </div>
     <div class="spacer"></div>
+    <h3 class="showMore" id="showMore" onClick="showMoreClicked()">
+        Click to hide:
+    </h3>
+    <div class="showMore-data" id="showMore-data">
+        {% for category,data in moneyPerCategory.items %}
+            <div class="showMore-element" >{{ category }}: {{ data.expended }}$</div>
+        {% endfor %}
+    </div>
+    <div class="spacer"></div>
     <div class="viewMonthlyExpenses">
-        <a href="{% url 'viewMonthlyExpenses' month %}">View this month's expenses</a>
+        <a href="{% url 'viewMonthlyExpenses' year month %}">View this month's expenses</a>
     </div>
     <div class="spacer"></div>
     <div class="addExpenseLink">

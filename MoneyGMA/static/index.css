@@ -2,6 +2,14 @@
     height: 5vh;
 }
 
+.totalExpended {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 730;
+}
+
 .expendedMoneyBar {
     margin-left: 5vw;
     margin-right: 5vw;
@@ -9,6 +17,7 @@
     background-color: aliceblue;
     display: flex;
     flex-direction: row;
+    position: relative;
 }
 
 .expendedMoneyBar-category {
@@ -21,12 +30,39 @@
     font-size: 20px;
 }
 
-.totalExpended {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    font-weight: 730;
+.expendedMoneyBar-inCategory {
+    display: none;
+    padding: 0.1vh 3vw 0.1vh 3vw;
+    position: absolute;
+    top:-4vh;
+    background-color: beige;
+}
+
+.expendedMoneyBar-inCategory::after {
+    display: inherit;
+    content: '';
+    position: absolute;
+    display: block;
+    width: 0;
+    z-index: 1;
+    border-style: solid;
+    border-color: beige transparent;
+    border-width: 10px 10px 0;
+}
+
+.showMore{
+    margin-right: 10vw;
+    margin-left: 3vw;
+    background-color: aquamarine;
+}
+
+.showMore-data {
+    margin-right: 10vw;
+    margin-left: 4vw;
+}
+
+.showMore-element {
+    border-bottom: 1px solid black;
 }
 
 .viewMonthlyExpenses {

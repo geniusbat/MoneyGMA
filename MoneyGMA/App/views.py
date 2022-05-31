@@ -23,20 +23,22 @@ def getExpensesContext(expenses, date):
     totalSum = 0
     moneyPerCategory = dict()
     for i in expenses:
+        totalSum+=i["money"]
         if i["category"] in moneyPerCategory:
             moneyPerCategory[i["category"]]["percent"]+=i["money"]
-            totalSum+=i["money"]
+            
         else:
             if i["category"]==None:
                 color = "#808080"
             else:
                 color = ExpenseCategory.objects.get(pk=i["category"]).color
             moneyPerCategory[i["category"]] = {"percent":i["money"], "color":color}
-            totalSum=i["money"]
     for i in moneyPerCategory:
+        moneyPerCategory[i]["expended"]=moneyPerCategory[i]["percent"]
         moneyPerCategory[i]["percent"]=(moneyPerCategory[i]["percent"]*100)/totalSum
     context["moneyPerCategory"] = moneyPerCategory
     context["expenses"] = expenses
+    context["prettyDate"] = datetime.strftime(date,"%B, %Y")
     context["date"]= date
     context["month"] = date.month
     context["totalExpended"]=totalSum
@@ -78,11 +80,12 @@ def viewExpenses(request, date:datetime):
 
 def viewMonthlyExpenses(request, monthNum):
     expenses = json.loads(getMonthlyExpenses(monthNum))
-    return partiallyViewExpenses(request, expenses)
-
-def partiallyViewExpenses(request, expenses):
-    template = "partiallyViewExpenses.html"
     context = viewData(); context["viewShortTitle"]="MoneyGMA"; context["viewTitle"]="MoneyGMA"
+    context["viewing"] = "This month's expenses"
+    return partiallyViewExpenses(request, expenses, context)
+
+def partiallyViewExpenses(request, expenses, context):
+    template = "partiallyViewExpenses.html"
     context["expenses"] = expenses
     return render(request, template, context)
 
@@ -99,14 +102,13 @@ def newExpense(request):
         #return render(request, 'testForm.html', {'form': form})
         return render(request, 'baseTemplates/genericForm.html', context=context)
 
-#TODO: Check it works
 def editExpense(request, id):
     if request.method == 'POST':
         try:
-            category = Expense.objects.get(pk=id)
+            expense = Expense.objects.get(pk=id)
         except Expense.DoesNotExist:
             return redirect("index")
-        form = ExpenseForm(request.POST, instance=category)
+        form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
             form.save()
             return redirect("index")
@@ -114,11 +116,11 @@ def editExpense(request, id):
             return JsonResponse(form.errors)
     else:
         try:
-            category = Expense.objects.get(pk=id)
+            expense = Expense.objects.get(pk=id)
         except Expense.DoesNotExist:
             return redirect("index")
         context = viewData();context["viewShortTitle"]="Expenses"; context["formSubmit"]="Edit"; context["viewTitle"]="Edit expense"
-        form = ExpenseCategoryForm(instance=category)
+        form = ExpenseForm(instance=expense)
         context["form"] = form
         return render(request, 'baseTemplates/genericForm.html', context=context)
 

@@ -1,0 +1,8 @@
+table {
+    width: 89%;
+}
+
+.table-row {
+    border-top: 1px solid black;
+    border-collapse: collapse;
+}

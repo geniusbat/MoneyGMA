@@ -1,7 +1,7 @@
 <form class="datePager" action="{% url 'changeMonth' %}" method="post">
     {% csrf_token %}
     <input type="submit" value="<" name="datePager-left" class="datePager-pager">
-    <span>{{ date | safe }}</span>
+    <span>{{ prettyDate }}</span>
     <input type="hidden" name="currentDate" value="{{ date | safe }}">
     <input type="submit" value=">" name="datePager-right" class="datePager-pager">
 </form>

@@ -14,7 +14,12 @@
     <div class="spacer"></div>
     <div class="expendedMoneyBar">
         {% for category,data in moneyPerCategory.items %}
-            <div class="expendedMoneyBar-category" id="{{ category }}" style="background-color:{{data.color}};width:{{data.percent}}%;"><span class="expendedMoneyBar-title">{{ category }}</span></div>
+            <div class="expendedMoneyBar-category" id="{{ category }}" style="background-color:{{data.color}}; width:{{data.percent}}%;">
+                <div class="expendedMoneyBar-inCategory" id="floater-{{ category }}">
+                    {{ data.expended }}$
+                </div>
+                <span class="expendedMoneyBar-title">{{ category }}</span>
+            </div>
         {% endfor %}
     </div>
     <div class="spacer"></div>

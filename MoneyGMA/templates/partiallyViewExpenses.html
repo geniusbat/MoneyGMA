@@ -4,10 +4,24 @@
     {% load static %}
     <title>MoneyGMA</title>
     <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'partiallyViewExpenses.css' %}">
 {% endblock head %}
 {% block content %}
+    <h3 class="viewingTitle">{{ viewing }}</h3>
     <div class="spacer"></div>
-    {% for expense in  expenses %}
-        {{ expense }} <br>
-    {% endfor %}
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Category</th>
+            <th>Money</th>
+        </tr>
+        {% for expense in  expenses %}
+            <tr class="table-row">
+                <td>{{ expense.date }}</td>
+                <td>{{ expense.category }}</td>
+                <td>{{ expense.money }}</td>
+                <td><a href="{% url 'editExpense' expense.id %}">Edit</a></td>
+            </tr>
+        {% endfor %}        
+    </table>
 {% endblock content %}

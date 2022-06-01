@@ -29,7 +29,7 @@
     </h3>
     <div class="showMore-data" id="showMore-data">
         {% for category,data in moneyPerCategory.items %}
-            <div class="showMore-element" >{{ category }}: {{ data.expended }}$</div>
+            <div class="showMore-element" ><span class="showMore-colorSquare" style="background-color:{{data.color}};"></span><span>{{ category }}: {{ data.expended }}$</span></div>
         {% endfor %}
     </div>
     <div class="spacer"></div>

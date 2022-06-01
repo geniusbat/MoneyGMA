@@ -1,20 +1,38 @@
+/*https://coolors.co/ce9461-dea057-e0d8b0-f5f5f5-74546a*/
+:root {
+    --crayola-tan: #CE9461;
+    --earth-yellow: #DEA057;
+    --dutch-white: #E0D8B0;
+    --cultured-white: #F5F5F5;
+    --kombu-green:#496E5B;
+    /*--kombu-green: #31493C;*/
+}
+
+html, body {
+    min-height: 100vh;
+}
+
 .content {
     padding: 0 1vw 0 1vw;
     font-weight: 620;
+    min-height: 100vh;
+    background-color: var(--cultured-white);
 }
 
 .navBar {
     height: 7vh;
-    background-color: aquamarine;
+    background-color: var(--crayola-tan);
     padding: 0.5vh 1vw 0.5vh 0.5vw;
     display: flex;
     justify-content: space-between;
 }
 
 .navBar-title {
+    margin-top: 0.2vh;
+    margin-left: 2vw;
     font-size: 30px;
     font-weight: 800;
-    margin-left: 2vw;
+    color: black
 }
 
 .burger-menu {
@@ -33,12 +51,12 @@
 
 .mainMenu {
     position: absolute;
-    width: 30%;
+    width: 50%;
     top: 7vh;
     right: 0px;
     z-index: 100;
     display: none;
-    background-color: green;
+    background-color: var(--kombu-green);
     padding: 0.5vh 0.9vw 1vh 2vw;
     flex-direction: column;
 }
@@ -47,11 +65,13 @@
     text-align: end;
     margin-top: 1vh;
     padding-right: 1vw;
-    background-color: greenyellow;
+    background-color: var(--dutch-white);
+    border: var(--crayola-tan) 3px solid;
 }
 
 .mainMenu-item > a {
+    color: var(--kombu-green);
     text-decoration: none;
-    font-size: 20px;
+    font-size: 30px;
     font-weight: 700;
 }

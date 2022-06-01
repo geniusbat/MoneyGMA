@@ -7,6 +7,8 @@ import json
 from Api.serializers import *
 from django.shortcuts import get_object_or_404
 
+#TODO: Error, from 01-05-2022 goes to 31-05-2022 (does not skip month)
+
 #AUXILIAR
 def viewData()->dict:
     d = dict()
@@ -29,7 +31,7 @@ def getExpensesContext(expenses, date):
             
         else:
             if i["category"]==None:
-                color = "#808080"
+                color = "#E0D8B0"
             else:
                 color = ExpenseCategory.objects.get(pk=i["category"]).color
             moneyPerCategory[i["category"]] = {"percent":i["money"], "color":color}

@@ -51,6 +51,8 @@
 }
 
 .showMore{
+    border-radius: 1.3vh;
+    box-shadow: 2px 4px var(--earth-yellow);
     margin-right: 10vw;
     margin-left: 3vw;
     background-color: var(--kombu-green);

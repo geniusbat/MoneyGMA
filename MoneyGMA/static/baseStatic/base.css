@@ -8,9 +8,7 @@
     /*--kombu-green: #31493C;*/
 }
 
-html, body {
-    min-height: 100vh;
-}
+html, body {margin: 0; height: 100%; overflow: hidden}
 
 .content {
     padding: 0 1vw 0 1vw;
@@ -20,17 +18,19 @@ html, body {
 }
 
 .navBar {
+    border-bottom-left-radius: 2vh;
+    border-bottom-right-radius: 2vh;
     height: 7vh;
     background-color: var(--crayola-tan);
-    padding: 0.5vh 1vw 0.5vh 0.5vw;
+    padding: 0 1vw 0 0.5vw;
     display: flex;
+    align-items: center;
     justify-content: space-between;
 }
 
 .navBar-title {
-    margin-top: 0.2vh;
     margin-left: 2vw;
-    font-size: 30px;
+    font-size: 5vh;
     font-weight: 800;
     color: black
 }

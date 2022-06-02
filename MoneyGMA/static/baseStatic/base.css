@@ -1,7 +1,7 @@
-/*https://coolors.co/ce9461-dea057-e0d8b0-f5f5f5-74546a*/
+/*https://coolors.co/ce9461-4c2e05-e0d8b0-f5f5f5-74546a*/
 :root {
     --crayola-tan: #CE9461;
-    --earth-yellow: #DEA057;
+    --noir-caffe: #4C2E05; /*Cafe-noir*/
     --dutch-white: #E0D8B0;
     --cultured-white: #F5F5F5;
     --kombu-green:#496E5B;
@@ -32,7 +32,8 @@ html, body {margin: 0; height: 100%; overflow: hidden}
     margin-left: 2vw;
     font-size: 5vh;
     font-weight: 800;
-    color: black
+    color: var(--cultured-white);
+    text-shadow: 3px 3px var(--noir-caffe);
 }
 
 .burger-menu {
@@ -50,6 +51,8 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 }
 
 .mainMenu {
+    border-top-left-radius: 1vh;
+    border-bottom-left-radius: 1vh;
     position: absolute;
     width: 50%;
     top: 7vh;
@@ -62,6 +65,7 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 }
 
 .mainMenu-item {
+    border-radius: 0.7vw;
     text-align: end;
     margin-top: 1vh;
     padding-right: 1vw;
@@ -71,6 +75,13 @@ html, body {margin: 0; height: 100%; overflow: hidden}
 
 .mainMenu-item > a {
     color: var(--kombu-green);
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.mainMenu-item > a:hover {
+    color: var(--noir-caffe);
     text-decoration: none;
     font-size: 30px;
     font-weight: 700;

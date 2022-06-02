@@ -35,7 +35,10 @@
     padding: 0.1vh 3vw 0.1vh 3vw;
     position: absolute;
     top:-4vh;
-    background-color: beige;
+    background-color: var(--noir-caffe);
+    border-radius: 0.4vh;
+    color: var(--cultured-white);
+    font-size: 20px;
 }
 
 .expendedMoneyBar-inCategory::after {
@@ -46,14 +49,14 @@
     width: 0;
     z-index: 1;
     border-style: solid;
-    border-color: beige transparent;
+    border-color: var(--noir-caffe) transparent;
     border-width: 10px 10px 0;
 }
 
 .showMore{
     border-radius: 1.3vh;
-    box-shadow: 2px 4px var(--earth-yellow);
-    margin-right: 10vw;
+    box-shadow: 2px 4px gray;
+    margin-right: 3vw;
     margin-left: 3vw;
     background-color: var(--kombu-green);
     color: var(--cultured-white);
@@ -91,6 +94,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 1vh;
 }
 
 .viewMonthlyExpenses > a {
@@ -110,6 +114,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 1vh;
 }
 
 .addExpenseLink > a {
@@ -117,4 +122,14 @@
     text-decoration: none;
     font-size: 20px;
     font-weight: 700;
+}
+
+a {
+    color: var(--kombu-green);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--noir-caffe);
+    text-decoration: none;
 }

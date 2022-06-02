@@ -2,12 +2,18 @@
 let currentlyDisplaying = null;
 
 function categoryClick(divId) {
-    if (!(currentlyDisplaying==null)) {
+    if (currentlyDisplaying==divId) {
         document.getElementById(currentlyDisplaying).style.display="none";
         currentlyDisplaying=null;
     }
-    currentlyDisplaying=divId;
-    document.getElementById(divId).style.display="block";
+    else {
+        if (!(currentlyDisplaying==null)) {
+            document.getElementById(currentlyDisplaying).style.display="none";
+            currentlyDisplaying=null;
+        }
+        currentlyDisplaying=divId;
+        document.getElementById(divId).style.display="block";
+    }
 }
 
 function showMoreClicked() {

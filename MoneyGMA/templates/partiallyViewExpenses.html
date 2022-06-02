@@ -14,12 +14,14 @@
         <tr>
             <th>Date</th>
             <th>Category</th>
+            <th>Description</th>
             <th>Money</th>
         </tr>
         {% for expense in  expenses %}
             <tr class="table-row">
                 <td>{{ expense.date | prettyDate }}</td>
                 <td>{{ expense.category }}</td>
+                <td>{{ expense.description }}</td>
                 <td>{{ expense.money }}</td>
                 <td><a href="{% url 'editExpense' expense.id %}">Edit</a></td>
             </tr>

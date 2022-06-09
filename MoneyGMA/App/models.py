@@ -10,6 +10,7 @@ class ExpenseCategory(models.Model):
     class Meta:
         verbose_name = ("Category")
         verbose_name_plural =("Categories")
+        ordering = ['type']
 
     def __str__(self):
         return self.type
@@ -22,8 +23,21 @@ class Expense(models.Model):
     money = models.FloatField("Money expended", default=0.0)
 
     class Meta:
+        ordering = ['date']
         verbose_name = ("Expense")
         verbose_name_plural =("Expenses")
 
     def __str__(self):
-        return self.date
+        return str(self.description) + " " + str(self.money)  + "$ " + datetime.strftime(self.date, "%d %B, %Y")
+
+class MoneyPool(models.Model):
+    name = models.CharField("Name", max_length=15)
+    description = models.CharField("Description", max_length=90, blank=True, default="")
+    money = models.IntegerField("Pool of Money")
+    expenses = models.ManyToManyField(Expense, blank=True, null=True)
+
+    class Meta:
+        ordering = ['name']
+    
+    def __str__(self) -> str:
+        return self.name + ": " + self.description

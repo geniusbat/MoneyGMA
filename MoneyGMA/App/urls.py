@@ -15,4 +15,8 @@ urlpatterns = [
     path("category",views.viewCategories, name="categories"),
     path("category/add",views.newCategory, name="addCategory"),
     path("category/edit/<str:name>",views.editCategory, name="editCategory"),
+    path("pools", views.moneyPools, name="moneyPools"),
+    path("pools/<int:poolId>", views.viewPool, name="viewPool"),
+    path("pools/edit/<int:poolId>", views.editPool, name="editPool"),
+    path("pools/add", views.addPool, name="addPool"),
 ]

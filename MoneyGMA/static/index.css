@@ -124,12 +124,7 @@
     font-weight: 700;
 }
 
-a {
-    color: var(--kombu-green);
-    text-decoration: none;
-}
-
-a:hover {
+.addExpenseLink > a:hover {
     color: var(--noir-caffe);
     text-decoration: none;
 }

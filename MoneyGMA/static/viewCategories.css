@@ -25,8 +25,22 @@ table {
     height: 5vh;
     margin-left: 5vw;
     margin-right: 5vw;
-    background-color: bisque;
+    background-color: var(--dutch-white);
+    border: var(--crayola-tan) 3px solid;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 1vh;
+}
+
+.addCategoryLink > a {
+    color: var(--kombu-green);
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.addCategoryLink > a:hover {
+    color: var(--noir-caffe);
+    text-decoration: none;
 }

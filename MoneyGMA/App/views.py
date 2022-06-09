@@ -96,7 +96,11 @@ def newExpense(request):
     if request.method == 'POST':
         form = ExpenseForm(request.POST)
         if form.is_valid():
-            form.save()
+            instance = form.save()
+            print(form["pools"].value())
+            for poolId in form["pools"].value():
+                pool = MoneyPool.objects.get(pk=poolId)
+                pool.expenses.add(Expense.objects.all().get(pk=instance.id))
             return redirect("index")
     else:
         context = viewData();context["viewShortTitle"]="Expenses"; context["formSubmit"]="Add"; context["viewTitle"]="Add new expense"
@@ -113,7 +117,18 @@ def editExpense(request, id):
             return redirect("index")
         form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
-            form.save()
+            instance = form.save()
+            if len(form["pools"])!=0:
+                poolIds = MoneyPool.objects.filter(expenses__in=[instance.id])
+                newPoolIds = form["pools"].value()
+                oldUnfound = [ins.id for ins in poolIds if ins.id not in newPoolIds]
+                newUnfound = [id for id in newPoolIds if id not in poolIds]
+                #Remove old
+                for id in oldUnfound:
+                    MoneyPool.objects.all().get(pk=id).expenses.remove(instance)
+                #Add new
+                for id in newUnfound:
+                    MoneyPool.objects.all().get(pk=id).expenses.add(instance)
             return redirect("index")
         else:
             return JsonResponse(form.errors)
@@ -166,5 +181,56 @@ def editCategory(request, name):
             return redirect("viewCategories")
         context = viewData();context["viewShortTitle"]="Categories"; context["formSubmit"]="Edit"; context["viewTitle"]="Edit category"
         form = ExpenseCategoryForm(instance=category)
+        context["form"] = form
+        return render(request, 'baseTemplates/genericForm.html', context=context)
+
+def moneyPools(request):
+    template = "moneyPools.html"
+    context = viewData(); context["viewShortTitle"]="Money Pools"; context["viewTitle"]="Money Pools"
+    pools = list(MoneyPool.objects.all().values())
+    for pool in pools:
+        pool["expenses"] = list(MoneyPool.objects.get(pk=pool["id"]).expenses.values())
+    context["pools"] = pools
+    return render(request, template, context)
+
+
+def viewPool(request, poolId):
+    template = "moneyPools.html"
+    context = viewData(); context["viewShortTitle"]="View pool"; context["viewTitle"]="View Pool"
+    pool = MoneyPool.objects.get(pk=poolId)
+    context["pool"] = pool
+    return render(request, template, context)
+
+def addPool(request):
+    if request.method == 'POST':
+        form = MoneyPoolForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("moneyPools")
+    else:
+        context = viewData();context["viewShortTitle"]="Pools"; context["formSubmit"]="Create Pool"; context["viewTitle"]="Create a new pool"
+        form = MoneyPoolForm()
+        context["form"] = form
+        return render(request, 'baseTemplates/genericForm.html', context=context)
+
+def editPool(request, poolId):
+    if request.method == 'POST':
+        try:
+            pool = MoneyPool.objects.get(pk=poolId)
+        except MoneyPool.DoesNotExist:
+            return redirect("moneyPools")
+        form = MoneyPoolForm(request.POST, instance=pool)
+        if form.is_valid():
+            instance = form.save()
+            return redirect("moneyPools")
+        else:
+            return JsonResponse(form.errors)
+    else:
+        try:
+            pool = MoneyPool.objects.get(pk=poolId)
+        except MoneyPool.DoesNotExist:
+            return redirect("moneyPools")
+        context = viewData();context["viewShortTitle"]="MoneyPools"; context["formSubmit"]="Edit"; context["viewTitle"]="Edit Pool"
+        form = MoneyPoolForm(instance=pool)
         context["form"] = form
         return render(request, 'baseTemplates/genericForm.html', context=context)

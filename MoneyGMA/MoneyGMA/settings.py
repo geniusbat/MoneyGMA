@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(=ji@7gibg1u*#pd$)=)0$5qu2s*=a8!*%0^0&7ga_6#oi+%hv'
+SECRET_KEY = os.environ.setdefault('MGMA_KEY', "SuperSecretKey")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.setdefault('MGMA_DEBUG', "False")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -92,9 +92,9 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': "MoneyGMADB",
-        'USER': 'postgres',
-        'PASSWORD': 'root',
+        'NAME': os.environ.setdefault('MGMA_DB', "MoneyGMADB"),
+        'USER': os.environ.setdefault('MGMA_USER', "User"),
+        'PASSWORD': os.environ.setdefault('MGMA_PASS', "Password"),
         'HOST': 'localhost',
         'PORT': '5432',
     }

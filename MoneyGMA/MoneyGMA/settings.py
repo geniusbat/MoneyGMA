@@ -154,7 +154,7 @@ STATIC_ROOT = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://moneygmav1.herokuapp.com/'
+    'https://moneygmav1.herokuapp.com'
 ]
 
 import django_heroku

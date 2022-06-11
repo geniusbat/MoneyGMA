@@ -86,3 +86,12 @@ html, body {margin: 0; height: 100%; overflow: hidden; background-color: var(--c
     font-size: 30px;
     font-weight: 700;
 }
+
+.pageTitle {
+    padding-top: 2vh;
+    font-size: 30px;
+    font-weight: 700;
+    width: 100%;
+    background-color: var(--cultured-white);
+    color: var(--noir-caffe);
+}

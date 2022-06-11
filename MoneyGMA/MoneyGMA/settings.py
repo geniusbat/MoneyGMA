@@ -92,9 +92,9 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.setdefault('MGMA_DB', "MoneyGMADB"),
-        'USER': os.environ.setdefault('MGMA_USER', "User"),
-        'PASSWORD': os.environ.setdefault('MGMA_PASS', "Password"),
+        'NAME': os.environ.setdefault('1MGMA_DB', "MoneyGMADB"),
+        'USER': os.environ.setdefault('1MGMA_USER', "MGMAUSER"),
+        'PASSWORD': os.environ.setdefault('1MGMA_PASS', "adminPass"),
         'HOST': 'localhost',
         'PORT': '5432',
     }

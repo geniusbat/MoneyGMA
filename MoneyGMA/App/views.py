@@ -118,7 +118,7 @@ def editExpense(request, id):
         form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
             instance = form.save()
-            if len(form["pools"])!=0:
+            if len(form["pools"])!=0: #TODO 
                 poolIds = MoneyPool.objects.filter(expenses__in=[instance.id])
                 newPoolIds = form["pools"].value()
                 oldUnfound = [ins.id for ins in poolIds if ins.id not in newPoolIds]
@@ -138,7 +138,7 @@ def editExpense(request, id):
         except Expense.DoesNotExist:
             return redirect("index")
         context = viewData();context["viewShortTitle"]="Expenses"; context["formSubmit"]="Edit"; context["viewTitle"]="Edit expense"
-        form = ExpenseForm(instance=expense)
+        form = ExpenseForm(instance=expense, id=id)
         context["form"] = form
         return render(request, 'baseTemplates/genericForm.html', context=context)
 

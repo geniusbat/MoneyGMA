@@ -34,7 +34,7 @@ class MoneyPool(models.Model):
     name = models.CharField("Name", max_length=15)
     description = models.CharField("Description", max_length=90, blank=True, default="")
     money = models.IntegerField("Pool of Money")
-    expenses = models.ManyToManyField(Expense, blank=True, null=True)
+    expenses = models.ManyToManyField(Expense, blank=True)
 
     class Meta:
         ordering = ['name']

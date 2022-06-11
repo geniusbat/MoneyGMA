@@ -11,12 +11,22 @@ class ExpenseCategoryForm(forms.ModelForm):
 
 
 class ExpenseForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        if "id" in kwargs:
+            self.id = kwargs.pop("id")
+            super(ExpenseForm, self).__init__(*args, **kwargs)
+            self.fields["pools"] = forms.ModelMultipleChoiceField(queryset=MoneyPool.objects.all(), required=False, initial=MoneyPool.objects.filter(expenses__in=[self.id]).values_list('id', flat=True))
+            print(self.id)
+            print(MoneyPool.objects.filter(expenses__in=[self.id]).values_list('id', flat=True))
+        else:
+            super(ExpenseForm, self).__init__(*args, **kwargs)
+            self.fields["pools"] = forms.ModelMultipleChoiceField(queryset=MoneyPool.objects.all(), required=False)
+    #pools = forms.ModelMultipleChoiceField(queryset=MoneyPool.objects.all(), required=False, initial=MoneyPool.objects.filter())
     date = forms.DateTimeField(
         input_formats=['%d/%m/%Y'],
         widget=DatePickerInput(),
         initial=date.today
         )
-    pools = forms.ModelMultipleChoiceField(queryset=MoneyPool.objects.all())
     class Meta:
         model = Expense
         fields = "__all__"

@@ -1,2 +1,2 @@
-release: python manage.py migrate
-web: python manage.py runserver
+release: python MoneyGMA/manage.py migrate
+web: python MoneyGMA/manage.py runserver

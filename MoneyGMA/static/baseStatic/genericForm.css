@@ -4,3 +4,16 @@
 .fieldWrapper {
     margin-top: 1vh;
 }
+
+button, input[type=button], input[type=submit] {
+    background-color: var(--kombu-green);
+    color: var(--cultured-white);
+    text-decoration: none;
+    border: 3px solid var(--crayola-tan);
+    border-radius: 1vh;
+    box-shadow: 2px 2px gray;
+}
+
+button:active, input[type=submit]:active, input[type=button]:active {
+    box-shadow: none;
+}

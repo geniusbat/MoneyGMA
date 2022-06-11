@@ -16,8 +16,6 @@ class ExpenseForm(forms.ModelForm):
             self.id = kwargs.pop("id")
             super(ExpenseForm, self).__init__(*args, **kwargs)
             self.fields["pools"] = forms.ModelMultipleChoiceField(queryset=MoneyPool.objects.all(), required=False, initial=MoneyPool.objects.filter(expenses__in=[self.id]).values_list('id', flat=True))
-            print(self.id)
-            print(MoneyPool.objects.filter(expenses__in=[self.id]).values_list('id', flat=True))
         else:
             super(ExpenseForm, self).__init__(*args, **kwargs)
             self.fields["pools"] = forms.ModelMultipleChoiceField(queryset=MoneyPool.objects.all(), required=False)

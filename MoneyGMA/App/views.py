@@ -97,7 +97,6 @@ def newExpense(request):
         form = ExpenseForm(request.POST)
         if form.is_valid():
             instance = form.save()
-            print(form["pools"].value())
             for poolId in form["pools"].value():
                 pool = MoneyPool.objects.get(pk=poolId)
                 pool.expenses.add(Expense.objects.all().get(pk=instance.id))
@@ -107,7 +106,7 @@ def newExpense(request):
         form = ExpenseForm()
         context["form"] = form
         #return render(request, 'testForm.html', {'form': form})
-        return render(request, 'baseTemplates/genericForm.html', context=context)
+        return render(request, 'expensesForm.html', context=context)
 
 def editExpense(request, id):
     if request.method == 'POST':
@@ -118,17 +117,16 @@ def editExpense(request, id):
         form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
             instance = form.save()
-            if len(form["pools"])!=0: #TODO 
-                poolIds = MoneyPool.objects.filter(expenses__in=[instance.id])
-                newPoolIds = form["pools"].value()
-                oldUnfound = [ins.id for ins in poolIds if ins.id not in newPoolIds]
-                newUnfound = [id for id in newPoolIds if id not in poolIds]
-                #Remove old
-                for id in oldUnfound:
-                    MoneyPool.objects.all().get(pk=id).expenses.remove(instance)
-                #Add new
-                for id in newUnfound:
-                    MoneyPool.objects.all().get(pk=id).expenses.add(instance)
+            poolIds = MoneyPool.objects.filter(expenses__in=[instance.id])
+            newPoolIds = form["pools"].value()
+            oldUnfound = [ins.id for ins in poolIds if ins.id not in newPoolIds]
+            newUnfound = [id for id in newPoolIds if id not in poolIds]
+            #Remove old
+            for id in oldUnfound:
+                MoneyPool.objects.all().get(pk=id).expenses.remove(instance)
+            #Add new
+            for id in newUnfound:
+                MoneyPool.objects.all().get(pk=id).expenses.add(instance)
             return redirect("index")
         else:
             return JsonResponse(form.errors)
@@ -140,7 +138,7 @@ def editExpense(request, id):
         context = viewData();context["viewShortTitle"]="Expenses"; context["formSubmit"]="Edit"; context["viewTitle"]="Edit expense"
         form = ExpenseForm(instance=expense, id=id)
         context["form"] = form
-        return render(request, 'baseTemplates/genericForm.html', context=context)
+        return render(request, 'expensesForm.html', context=context)
 
 def viewCategories(request):
     template = "viewCategories.html"

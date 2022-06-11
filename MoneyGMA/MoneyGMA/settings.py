@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.setdefault('MGMA_KEY', "SuperSecretKey")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.setdefault('MGMA_DEBUG', "False")
 
-ALLOWED_HOSTS = ['https://moneygmav1.herokuapp.com/']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -92,9 +92,9 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.setdefault('1MGMA_DB', "MoneyGMADB"),
-        'USER': os.environ.setdefault('1MGMA_USER', "MGMAUSER"),
-        'PASSWORD': os.environ.setdefault('1MGMA_PASS', "adminPass"),
+        'NAME': os.environ.setdefault('MGMA_DB', "MoneyGMADB"),
+        'USER': os.environ.setdefault('MGMA_USER', "MGMAUSER"),
+        'PASSWORD': os.environ.setdefault('MGMA_PASS', "adminPass"),
         'HOST': 'localhost',
         'PORT': '5432',
     }

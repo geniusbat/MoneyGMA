@@ -1,4 +1,2 @@
 release: python manage.py migrate
 web: python manage.py runserver
-
-//waitress-serve --listen=*:8000 MoneyGMA.wsgi:application

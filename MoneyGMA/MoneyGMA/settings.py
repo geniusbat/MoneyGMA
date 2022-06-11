@@ -25,7 +25,7 @@ SECRET_KEY = os.environ.setdefault('MGMA_KEY', "SuperSecretKey")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.setdefault('MGMA_DEBUG', "False")
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://moneygmav1.herokuapp.com/']
 
 
 # Application definition
@@ -145,3 +145,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+import django_heroku
+django_heroku.settings(locals())

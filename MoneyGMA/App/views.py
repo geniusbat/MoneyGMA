@@ -116,17 +116,23 @@ def editExpense(request, id):
             return redirect("index")
         form = ExpenseForm(request.POST, instance=expense)
         if form.is_valid():
-            instance = form.save()
-            poolIds = MoneyPool.objects.filter(expenses__in=[instance.id])
-            newPoolIds = form["pools"].value()
-            oldUnfound = [ins.id for ins in poolIds if ins.id not in newPoolIds]
-            newUnfound = [id for id in newPoolIds if id not in poolIds]
-            #Remove old
-            for id in oldUnfound:
-                MoneyPool.objects.all().get(pk=id).expenses.remove(instance)
-            #Add new
-            for id in newUnfound:
-                MoneyPool.objects.all().get(pk=id).expenses.add(instance)
+            #Delete expense
+            if "deleteInstance" in request.POST:
+                instance = form.save()
+                instance.delete()
+            #Edit expense
+            else:
+                instance = form.save()
+                poolIds = MoneyPool.objects.filter(expenses__in=[instance.id])
+                newPoolIds = form["pools"].value()
+                oldUnfound = [ins.id for ins in poolIds if ins.id not in newPoolIds]
+                newUnfound = [id for id in newPoolIds if id not in poolIds]
+                #Remove old
+                for id in oldUnfound:
+                    MoneyPool.objects.all().get(pk=id).expenses.remove(instance)
+                #Add new
+                for id in newUnfound:
+                    MoneyPool.objects.all().get(pk=id).expenses.add(instance)
             return redirect("index")
         else:
             return JsonResponse(form.errors)
@@ -168,7 +174,13 @@ def editCategory(request, name):
             return redirect("viewCategories")
         form = ExpenseCategoryForm(request.POST, instance=category)
         if form.is_valid():
-            form.save()
+            #Delete
+            if "deleteInstance" in request.POST:
+                instance = form.save()
+                instance.delete()
+            #Edit
+            else:
+                form.save()
             return redirect("categories")
         else:
             return JsonResponse(form.errors)
@@ -219,7 +231,13 @@ def editPool(request, poolId):
             return redirect("moneyPools")
         form = MoneyPoolForm(request.POST, instance=pool)
         if form.is_valid():
-            instance = form.save()
+            #Delete
+            if "deleteInstance" in request.POST:
+                instance = form.save()
+                instance.delete()
+            #Edit
+            else:
+                instance = form.save()
             return redirect("moneyPools")
         else:
             return JsonResponse(form.errors)

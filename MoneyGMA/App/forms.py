@@ -19,7 +19,6 @@ class ExpenseForm(forms.ModelForm):
         else:
             super(ExpenseForm, self).__init__(*args, **kwargs)
             self.fields["pools"] = forms.ModelMultipleChoiceField(queryset=MoneyPool.objects.all(), required=False)
-    #pools = forms.ModelMultipleChoiceField(queryset=MoneyPool.objects.all(), required=False, initial=MoneyPool.objects.filter())
     date = forms.DateTimeField(
         input_formats=['%d/%m/%Y'],
         widget=DatePickerInput(),
@@ -28,6 +27,7 @@ class ExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
         fields = "__all__"
+
 
 class MoneyPoolForm(forms.ModelForm):
     class Meta:

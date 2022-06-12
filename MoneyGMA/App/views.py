@@ -67,10 +67,8 @@ def login(request):
         return render(request, template, context)
 
 def handleLogin(request):
-    print("FFFFFFFFFFF")
     if request.method == "POST":
         password = request.POST.get("pass","")
-        print(hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest())
         if hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest()=="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855":
             request.session["logged"]=True
             return redirect("index")

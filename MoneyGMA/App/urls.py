@@ -6,7 +6,9 @@ from .converters import DateConverter
 register_converter(DateConverter, 'date')
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("index", views.index, name="index"),
+    path("", views.login, name="login"),
+    path("login", views.handleLogin, name="handleLogin"),
     path("<date:date>", views.viewExpenses),
     path("viewMonthlyExpenses/<int:year>/<int:monthNum>", views.viewMonthlyExpenses, name="viewMonthlyExpenses"),
     path("changemonth", views.changeMonth, name="changeMonth"),

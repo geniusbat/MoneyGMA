@@ -5,7 +5,7 @@ from datetime import date, datetime, timedelta
 from .forms import * 
 import json
 from Api.serializers import *
-from django.shortcuts import get_object_or_404
+import hashlib
 
 #TODO: Error, from 01-05-2022 goes to 31-05-2022 (does not skip month)
 
@@ -46,11 +46,40 @@ def getExpensesContext(expenses, date):
     context["month"] = date.month
     context["totalExpended"]=totalSum
     return context
+def IsLogged(request):
+    if "logged" in request.session and request.session["logged"]==True:
+        return True
+    else:
+        return False
+def HandleNonLog(request):
+    request.session["logged"]=False
+    return redirect("login")
 
 
 #VIEWS
 
+def login(request):
+    if IsLogged(request):
+        return redirect("index")
+    else:
+        template = "login.html"
+        context = {}
+        return render(request, template, context)
+
+def handleLogin(request):
+    print("FFFFFFFFFFF")
+    if request.method == "POST":
+        password = request.POST.get("pass","")
+        print(hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest())
+        if hashlib.sha256(bytes(password, encoding='utf-8')).hexdigest()=="e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855":
+            request.session["logged"]=True
+            return redirect("index")
+    return redirect("login")
+
+
 def index(request):
+    if not IsLogged(request):
+        return HandleNonLog(request)
     template = "index.html"
     context = viewData(); context["viewShortTitle"]="MoneyGMA"; context["viewTitle"]="MoneyGMA"
     expenses = json.loads(getMonthlyExpenses(date.today().year, date.today().month))

@@ -8,7 +8,7 @@
     /*--kombu-green: #31493C;*/
 }
 
-html, body {margin: 0; height: 100%; overflow: hidden; background-color: var(--cultured-white);}
+html, body {margin: 0; height: 100%; overflow: hidden; background-color: var(--cultured-white)!important;}
 
 .content {
     padding: 0 1vw 0 1vw;

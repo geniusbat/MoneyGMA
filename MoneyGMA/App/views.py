@@ -83,8 +83,8 @@ def viewExpenses(request, date:datetime):
 
 def viewMonthlyExpenses(request, year, monthNum):
     expenses = json.loads(getMonthlyExpenses(year, monthNum))
-    context = viewData(); context["viewShortTitle"]="MoneyGMA"; context["viewTitle"]="MoneyGMA"
-    context["viewing"] = "This month's expenses"
+    month = datetime.strptime(str(monthNum), "%m")
+    context = viewData(); context["viewShortTitle"]="MoneyGMA"; context["viewTitle"]="Expenses "+month.strftime("%B")
     return partiallyViewExpenses(request, expenses, context)
 
 def partiallyViewExpenses(request, expenses, context):
@@ -141,7 +141,7 @@ def editExpense(request, id):
             expense = Expense.objects.get(pk=id)
         except Expense.DoesNotExist:
             return redirect("index")
-        context = viewData();context["viewShortTitle"]="Expenses"; context["formSubmit"]="Edit"; context["viewTitle"]="Edit expense"
+        context = viewData();context["viewShortTitle"]="Expenses"; context["formSubmit"]="Edit"; context["viewTitle"]="Editing expense "+expense.description
         form = ExpenseForm(instance=expense, id=id)
         context["form"] = form
         return render(request, 'expensesForm.html', context=context)
@@ -189,7 +189,7 @@ def editCategory(request, name):
             category = ExpenseCategory.objects.get(pk=name)
         except ExpenseCategory.DoesNotExist:
             return redirect("viewCategories")
-        context = viewData();context["viewShortTitle"]="Categories"; context["formSubmit"]="Edit"; context["viewTitle"]="Edit category"
+        context = viewData();context["viewShortTitle"]="Categories"; context["formSubmit"]="Edit"; context["viewTitle"]="Edit category "+category.type
         form = ExpenseCategoryForm(instance=category)
         context["form"] = form
         return render(request, 'baseTemplates/genericForm.html', context=context)
@@ -203,13 +203,17 @@ def moneyPools(request):
     context["pools"] = pools
     return render(request, template, context)
 
-
-def viewPool(request, poolId):
-    template = "moneyPools.html"
-    context = viewData(); context["viewShortTitle"]="View pool"; context["viewTitle"]="View Pool"
-    pool = MoneyPool.objects.get(pk=poolId)
-    context["pool"] = pool
-    return render(request, template, context)
+def viewPoolExpenses(request, poolId):
+        context = viewData(); context["viewShortTitle"]="View pool Expenses"; context["viewTitle"]="Viewing Expenses From Pool "
+        try:
+            pool = MoneyPool.objects.get(pk=poolId)
+            expenses = list(pool.expenses.all().values())
+            for expense in expenses:
+                expense["date"] = str(expense["date"])
+            context["viewTitle"] += pool.name
+            return partiallyViewExpenses(request,expenses,context)
+        except MoneyPool.DoesNotExist:
+            return redirect("viewCategories")
 
 def addPool(request):
     if request.method == 'POST':
@@ -246,7 +250,7 @@ def editPool(request, poolId):
             pool = MoneyPool.objects.get(pk=poolId)
         except MoneyPool.DoesNotExist:
             return redirect("moneyPools")
-        context = viewData();context["viewShortTitle"]="MoneyPools"; context["formSubmit"]="Edit"; context["viewTitle"]="Edit Pool"
+        context = viewData();context["viewShortTitle"]="MoneyPools"; context["formSubmit"]="Edit"; context["viewTitle"]="Editing Pool "+pool.name
         form = MoneyPoolForm(instance=pool)
         context["form"] = form
         return render(request, 'baseTemplates/genericForm.html', context=context)

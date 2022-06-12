@@ -3,12 +3,12 @@
 {% load static %}
 {% block head %}
     {% load static %}
-    <title>MoneyGMA</title>
+    <title>{{ viewShortTitle }}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'index.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'partiallyViewExpenses.css' %}">
 {% endblock head %}
 {% block content %}
-    <div class="viewingTitle pageTitle"> {{ viewing }}</div>
+    <div class="viewingTitle pageTitle"> {{ viewTitle }}</div>
     <div class="spacer"></div>
     <table>
         <tr>

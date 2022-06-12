@@ -21,11 +21,14 @@
                 <td>{{ pool.name }}</td>
                 <td>{{ pool.description }}</td>
                 <td>{{ pool.money }}</td>
+                <td><a href="{% url 'viewPoolExpenses' pool.id %}">Expenses</a></td>
+                <!--
                 <td>
                     {% for expense in  pool.expenses%}
                         {{expense}} <br>
                     {% endfor %}
                 </td>
+                -->
                 <td><a href="{% url 'editPool' pool.id %}">Edit</a></td>
             </tr>
         {% endfor %}        

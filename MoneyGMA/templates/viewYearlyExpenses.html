@@ -1,0 +1,46 @@
+{% extends 'baseTemplates/base.html' %}
+{% load static %}
+{% block head %}
+    {% load static %}
+    <title>Yearly Expenses</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'yearlyExpenses.css' %}">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="{% static 'yearlyExpenses.js' %}"></script>
+{% endblock head %}
+{% block content %}
+    <div class="pageTitle">Yearly Expenses</div>
+    <br>
+
+    <div id="container" style="width: 75%;">
+        <canvas id="pie-chart"></canvas>
+    </div>
+    {{ data }}
+    <input type="hidden" name="" id="data" value="{{data|safe}}">
+    <input type="hidden" name="" id="labels" value="{{labels|safe}}">
+    <script>
+
+        var config = {
+          type: 'pie',
+          data: {
+            datasets: [{
+              data: {{ data|safe }},
+              backgroundColor: [
+                '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+              ],
+              label: 'Population'
+            }],
+            labels: {{ labels|safe }}
+          },
+          options: {
+            responsive: true
+          }
+        };
+    
+        window.onload = function() {
+          var ctx = document.getElementById('pie-chart').getContext('2d');
+          window.myPie = new Chart(ctx, config);
+        };
+    
+      </script>
+{% endblock content %}

@@ -1,4 +1,5 @@
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.db.models import Sum
 from django.shortcuts import redirect, render
 import Api.views as api
 from datetime import date, datetime, timedelta
@@ -50,6 +51,7 @@ def IsLogged(request):
     if "logged" in request.session and request.session["logged"]==True:
         return True
     else:
+        request.session["logged"]==False
         return False
 def HandleNonLog(request):
     request.session["logged"]=False
@@ -66,6 +68,10 @@ def login(request):
         context = {}
         return render(request, template, context)
 
+def unlog(request):
+    request.session["logged"]=False
+    return redirect("login")
+
 def handleLogin(request):
     if request.method == "POST":
         password = request.POST.get("pass","")
@@ -76,6 +82,7 @@ def handleLogin(request):
 
 
 def index(request):
+    print(IsLogged(request))
     if not IsLogged(request):
         return HandleNonLog(request)
     template = "index.html"
@@ -113,6 +120,21 @@ def viewMonthlyExpenses(request, year, monthNum):
     month = datetime.strptime(str(monthNum), "%m")
     context = viewData(); context["viewShortTitle"]="MoneyGMA"; context["viewTitle"]="Expenses "+month.strftime("%B")
     return partiallyViewExpenses(request, expenses, context)
+
+def viewYearlyExpenses(request, year):
+    template = "viewYearlyExpenses.html"
+    data = []
+    labels = []
+    for monthNum in range(1,13):
+        monthlyExpenses = Expense.objects.filter(date__year=year,date__month=monthNum).aggregate(Sum("money"))["money__sum"]
+        if monthlyExpenses == None:
+            monthlyExpenses = 0
+        data.append(monthlyExpenses)
+        labels.append(monthNum)
+    context = viewData(); context["viewShortTitle"]="Yearly expenses"; context["viewTitle"]="YearlyExpenses"
+    context["data"] = data
+    context["labels"] = labels
+    return render(request, template, context)
 
 def partiallyViewExpenses(request, expenses, context):
     template = "partiallyViewExpenses.html"

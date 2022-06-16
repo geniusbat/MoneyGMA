@@ -12,34 +12,69 @@
     <div class="pageTitle">Yearly Expenses</div>
     <br>
 
-    <div id="container" style="width: 75%;">
-        <canvas id="pie-chart"></canvas>
+    <div class="chartDivider">
+      <div class="chartContainer">
+        <canvas id="monthlyView"></canvas>
     </div>
-    {{ data }}
-    <input type="hidden" name="" id="data" value="{{data|safe}}">
-    <input type="hidden" name="" id="labels" value="{{labels|safe}}">
-    <script>
 
-        var config = {
-          type: 'pie',
+    <div class="chartContainer">
+      <canvas id="categoryView"></canvas>
+    </div>
+    </div>
+
+    <script>
+        var monthlyConfig = {
+          type: 'bar',
           data: {
             datasets: [{
-              data: {{ data|safe }},
+              data: {{ monthlyData|safe }},
               backgroundColor: [
-                '#696969', '#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3'
+              'rgba(255, 99, 132, 0.8)',
+              'rgba(255, 159, 64, 0.8)',
+              'rgba(255, 205, 86, 0.8)',
+              'rgba(75, 192, 192, 0.8)',
+              'rgba(54, 162, 235, 0.8)',
+              'rgba(153, 102, 255, 0.8)',
+              'rgba(201, 203, 207, 0.8)'
               ],
-              label: 'Population'
+              label: ''
             }],
-            labels: {{ labels|safe }}
+            labels: {{ monthlylabels|safe }}
           },
           options: {
-            responsive: true
+            responsive: true,
+            maintainAspectRatio: false
           }
         };
-    
+        var categoryConfig = {
+          type: 'bar',
+          data: {
+            datasets: [{
+              data: {{ categoryData|safe }},
+              backgroundColor: [
+              'rgba(255, 99, 132, 0.8)',
+              'rgba(255, 159, 64, 0.8)',
+              'rgba(255, 205, 86, 0.8)',
+              'rgba(75, 192, 192, 0.8)',
+              'rgba(54, 162, 235, 0.8)',
+              'rgba(153, 102, 255, 0.8)',
+              'rgba(201, 203, 207, 0.8)'
+              ],
+              label: ''
+            }],
+            labels: {{ categorylabels|safe }}
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false
+          }
+        };
         window.onload = function() {
-          var ctx = document.getElementById('pie-chart').getContext('2d');
-          window.myPie = new Chart(ctx, config);
+          Chart.defaults.global.legend.display = false; //Hide legend
+          var ctx = document.getElementById('monthlyView').getContext('2d');
+          window.myPie = new Chart(ctx, monthlyConfig);
+          ctx = document.getElementById('categoryView').getContext('2d');
+          window.myPie = new Chart(ctx, categoryConfig);
         };
     
       </script>

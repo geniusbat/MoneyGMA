@@ -13,6 +13,7 @@ urlpatterns = [
     path("<date:date>", views.viewExpenses),
     path("viewMonthlyExpenses/<int:year>/<int:monthNum>", views.viewMonthlyExpenses, name="viewMonthlyExpenses"),
     path("viewYearlyExpenses/<int:year>", views.viewYearlyExpenses, name="viewYearlyExpenses"),
+    path("viewYear", views.viewYearExpenses, name="viewYearExpenses"),
     path("changemonth", views.changeMonth, name="changeMonth"),
     path("expense/edit/<int:id>",views.editExpense, name="editExpense"),
     path("expense/add",views.newExpense, name="addExpense"),

@@ -1,0 +1,15 @@
+.chartDivider {
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    max-height: 60vh;
+    align-items: stretch;
+}
+
+.chartContainer {
+    flex: 1;
+}
+
+canvas {
+    max-height: 100%;
+}

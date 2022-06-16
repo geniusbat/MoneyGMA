@@ -2,7 +2,7 @@
 {% load static %}
 {% block head %}
     {% load static %}
-    <title>{{ viewShortTitle }}</title>
+    <title>{{ viewShortTitle|safe }}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'baseStatic/genericForm.css' %}">
 {% endblock head %}
 {% block content %}
@@ -23,9 +23,11 @@
                 </div>
             {% endfor %}
             <br>
-            <input type="submit" value="{{ formSubmit }}">
-            <br>
-            <input type="submit" value="Delete" name="deleteInstance">
+            <input type="submit" value="{{ formSubmit|safe }}">
+            <br> <br>
+            {% if editing %}
+                <input type="submit" value="Delete" name="deleteInstance">
+            {% endif %}
         </form>
     {% endblock formContent %}
     {% block afterForm %}{% endblock afterForm %}

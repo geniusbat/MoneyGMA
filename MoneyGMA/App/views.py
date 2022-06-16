@@ -123,18 +123,26 @@ def viewMonthlyExpenses(request, year, monthNum):
 
 def viewYearlyExpenses(request, year):
     template = "viewYearlyExpenses.html"
-    data = []
-    labels = []
+    monthlyData = []
+    monthlylabels = []
     for monthNum in range(1,13):
         monthlyExpenses = Expense.objects.filter(date__year=year,date__month=monthNum).aggregate(Sum("money"))["money__sum"]
         if monthlyExpenses == None:
             monthlyExpenses = 0
-        data.append(monthlyExpenses)
-        labels.append(monthNum)
+        monthlyData.append(monthlyExpenses)
+        monthlylabels.append(monthNum)
+    categoryLabels = [tp[0] for tp in list(ExpenseCategory.objects.values_list("type"))]; categoryLabels.insert(0,None)
+    categoryData = [Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"] if Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]!=None else 0 for cat in categoryLabels]
+    categoryLabels[0] = "None"
     context = viewData(); context["viewShortTitle"]="Yearly expenses"; context["viewTitle"]="YearlyExpenses"
-    context["data"] = data
-    context["labels"] = labels
+    context["monthlyData"] = monthlyData
+    context["monthlylabels"] = monthlylabels
+    context["categoryData"] = categoryData
+    context["categorylabels"] = categoryLabels
     return render(request, template, context)
+
+def viewYearExpenses(request):
+    return viewYearlyExpenses(request, date.today().year)
 
 def partiallyViewExpenses(request, expenses, context):
     template = "partiallyViewExpenses.html"
@@ -193,6 +201,7 @@ def editExpense(request, id):
         context = viewData();context["viewShortTitle"]="Expenses"; context["formSubmit"]="Edit"; context["viewTitle"]="Editing expense "+expense.description
         form = ExpenseForm(instance=expense, id=id)
         context["form"] = form
+        context["editing"] = True
         return render(request, 'expensesForm.html', context=context)
 
 def viewCategories(request):
@@ -250,6 +259,7 @@ def moneyPools(request):
     for pool in pools:
         pool["expenses"] = list(MoneyPool.objects.get(pk=pool["id"]).expenses.values())
     context["pools"] = pools
+    context["editing"] = True
     return render(request, template, context)
 
 def viewPoolExpenses(request, poolId):
@@ -302,4 +312,5 @@ def editPool(request, poolId):
         context = viewData();context["viewShortTitle"]="MoneyPools"; context["formSubmit"]="Edit"; context["viewTitle"]="Editing Pool "+pool.name
         form = MoneyPoolForm(instance=pool)
         context["form"] = form
+        context["editing"] = True
         return render(request, 'baseTemplates/genericForm.html', context=context)

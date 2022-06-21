@@ -62,16 +62,15 @@ def getMonthlyExpenses(request, monthNum):
     return JsonResponse(serializer.data, safe=False)
 
 class ExpenseDetail(APIView):
-    print("SSSSSSSSSSSSSSSSSSS")
     def getObject(self, id):
-        print("AAAAAAAAAAAAAAAAAAAA")
+        print("EXPENSEDETAILAAAAAAAAAAAAAAAAAAAA")
         try:
             return Expense.objects.get(pk=id)
         except Expense.DoesNotExist:
             raise Http404
 
     def get(self, request, id):
-        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        print("EXPENSEDETAILFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         #expenses = Expense.objects.get(pk=id)
         expenses = Expense.objects.filter(pk=id)[0]
         serializer = ExpenseSerializer(expenses, many=True)

@@ -121,12 +121,6 @@ def viewMonthlyExpenses(request, year, monthNum):
     context = viewData(); context["viewShortTitle"]="MoneyGMA"; context["viewTitle"]="Expenses "+month.strftime("%B")
     return partiallyViewExpenses(request, expenses, context)
 
-def hexToRGB(value) -> tuple:
-    """Return (red, green, blue) for the color given as #rrggbb."""
-    value = value.lstrip('#')
-    lv = len(value)
-    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-
 def viewYearlyExpenses(request, year):
     template = "viewYearlyExpenses.html"
     monthlyData = []
@@ -139,14 +133,12 @@ def viewYearlyExpenses(request, year):
         monthlylabels.append(monthNum)
     categoryLabels = [tp[0] for tp in list(ExpenseCategory.objects.values_list("type"))]; categoryLabels.insert(0,None)
     categoryData = [Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"] if Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]!=None else 0 for cat in categoryLabels]
-    categoryColors = ["rgba({}, {}, {}, 0.95)".format(hexToRGB(tp[0])[0],hexToRGB("#E0D8B0")[1],hexToRGB("#E0D8B0")[2]) for tp in list(ExpenseCategory.objects.values_list("color"))]; categoryColors.insert(0,"rgba({}, {}, {}, 0.95)".format(hexToRGB("#E0D8B0")[0],hexToRGB("#E0D8B0")[1],hexToRGB("#E0D8B0")[2]))
     categoryLabels[0] = "None"
     context = viewData(); context["viewShortTitle"]="Yearly expenses"; context["viewTitle"]="YearlyExpenses"
     context["monthlyData"] = monthlyData
     context["monthlylabels"] = monthlylabels
     context["categoryData"] = categoryData
     context["categorylabels"] = categoryLabels
-    context["categoryColors"] = categoryColors
     return render(request, template, context)
 
 def viewYearExpenses(request):

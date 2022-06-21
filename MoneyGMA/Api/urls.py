@@ -7,4 +7,5 @@ urlpatterns = [
     path('expense', ExpenseList.as_view()), 
     path('expense/monthly/<int:monthNum>', getMonthlyExpenses), 
     path('expense/<int:pk>/', ExpenseDetail.as_view()),
+    path('pools', getPools), 
 ]

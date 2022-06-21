@@ -10,6 +10,8 @@ from django.http import JsonResponse
 
 from App.models import *
 
+#DETAILED VIEWS STOPPED WORKING
+
 class ExpenseCategoryList(APIView):
     def get(self, request):
         categories = ExpenseCategory.objects.all()
@@ -60,14 +62,18 @@ def getMonthlyExpenses(request, monthNum):
     return JsonResponse(serializer.data, safe=False)
 
 class ExpenseDetail(APIView):
+    print("SSSSSSSSSSSSSSSSSSS")
     def getObject(self, id):
+        print("AAAAAAAAAAAAAAAAAAAA")
         try:
             return Expense.objects.get(pk=id)
         except Expense.DoesNotExist:
             raise Http404
 
     def get(self, request, id):
-        expenses = Expense.objects.get(pk=id)
+        print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        #expenses = Expense.objects.get(pk=id)
+        expenses = Expense.objects.filter(pk=id)[0]
         serializer = ExpenseSerializer(expenses, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -88,3 +94,10 @@ class ExpenseDetail(APIView):
 
     def delete(self, request):
         pass
+
+
+@api_view(['GET'])
+def getPools(request):
+    pools = MoneyPool.objects.all()
+    serializer = MoneyPoolSerializer(pools, many=True)
+    return JsonResponse(serializer.data, safe=False)

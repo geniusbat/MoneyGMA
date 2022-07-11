@@ -51,7 +51,7 @@ def IsLogged(request):
     if "logged" in request.session and request.session["logged"]==True:
         return True
     else:
-        request.session["logged"]==False
+        request.session["logged"]=False
         return False
 def HandleNonLog(request):
     request.session["logged"]=False

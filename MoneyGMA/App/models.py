@@ -35,6 +35,12 @@ class MoneyPool(models.Model):
     description = models.CharField("Description", max_length=90, blank=True, default="")
     money = models.IntegerField("Pool of Money")
     expenses = models.ManyToManyField(Expense, blank=True)
+    @property
+    def expended(self):
+        sum = 0
+        for expense in self.expenses.all():
+            sum += expense.money
+        return sum
 
     class Meta:
         ordering = ['name']

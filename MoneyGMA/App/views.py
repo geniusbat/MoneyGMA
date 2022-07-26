@@ -207,7 +207,7 @@ def editExpense(request, id):
 def viewCategories(request):
     template = "viewCategories.html"
     context = viewData(); context["viewShortTitle"]="Categories"; context["viewTitle"]="Categories"
-    categories = list(ExpenseCategory.objects.all().values())
+    categories = ExpenseCategory.objects.all()
     context["categories"] = categories
     return render(request, template, context)
 
@@ -255,9 +255,7 @@ def editCategory(request, name):
 def moneyPools(request):
     template = "moneyPools.html"
     context = viewData(); context["viewShortTitle"]="Money Pools"; context["viewTitle"]="Money Pools"
-    pools = list(MoneyPool.objects.all().values())
-    for pool in pools:
-        pool["expenses"] = list(MoneyPool.objects.get(pk=pool["id"]).expenses.values())
+    pools = (MoneyPool.objects.all())
     context["pools"] = pools
     context["editing"] = True
     return render(request, template, context)
@@ -266,7 +264,7 @@ def viewPoolExpenses(request, poolId):
         context = viewData(); context["viewShortTitle"]="View pool Expenses"; context["viewTitle"]="Viewing Expenses From Pool "
         try:
             pool = MoneyPool.objects.get(pk=poolId)
-            expenses = list(pool.expenses.all().values())
+            expenses = pool.expenses.all()
             for expense in expenses:
                 expense["date"] = str(expense["date"])
             context["viewTitle"] += pool.name

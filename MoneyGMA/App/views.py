@@ -7,6 +7,7 @@ from .forms import *
 import json
 from Api.serializers import *
 import hashlib
+from decimal import *
 
 #TODO: Error, from 01-05-2022 goes to 31-05-2022 (does not skip month)
 
@@ -23,19 +24,19 @@ def getMonthlyExpenses(year, monthNum):
     return JsonResponse(serializer.data, safe=False).content
 def getExpensesContext(expenses, date):
     context = {}
-    totalSum = 0
+    totalSum = Decimal(0)
     moneyPerCategory = dict()
     for i in expenses:
-        totalSum+=i["money"]
+        totalSum+=Decimal(i["money"])
         if i["category"] in moneyPerCategory:
-            moneyPerCategory[i["category"]]["percent"]+=i["money"]
+            moneyPerCategory[i["category"]]["percent"]+=Decimal(i["money"])
             
         else:
             if i["category"]==None:
                 color = "#E0D8B0"
             else:
                 color = ExpenseCategory.objects.get(pk=i["category"]).color
-            moneyPerCategory[i["category"]] = {"percent":i["money"], "color":color}
+            moneyPerCategory[i["category"]] = {"percent":Decimal(i["money"]), "color":color}
     for i in moneyPerCategory:
         moneyPerCategory[i]["expended"]=moneyPerCategory[i]["percent"]
         moneyPerCategory[i]["percent"]=(moneyPerCategory[i]["percent"]*100)/totalSum

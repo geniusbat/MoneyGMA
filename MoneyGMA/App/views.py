@@ -9,8 +9,6 @@ from Api.serializers import *
 import hashlib
 from decimal import *
 
-#TODO: Error, from 01-05-2022 goes to 31-05-2022 (does not skip month)
-
 #AUXILIAR
 def viewData()->dict:
     d = dict()
@@ -130,10 +128,12 @@ def viewYearlyExpenses(request, year):
         monthlyExpenses = Expense.objects.filter(date__year=year,date__month=monthNum).aggregate(Sum("money"))["money__sum"]
         if monthlyExpenses == None:
             monthlyExpenses = 0
+        else:
+            monthlyExpenses = float(monthlyExpenses)
         monthlyData.append(monthlyExpenses)
         monthlylabels.append(monthNum)
     categoryLabels = [tp[0] for tp in list(ExpenseCategory.objects.values_list("type"))]; categoryLabels.insert(0,None)
-    categoryData = [Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"] if Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]!=None else 0 for cat in categoryLabels]
+    categoryData = [float(Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]) if Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]!=None else 0 for cat in categoryLabels]
     categoryLabels[0] = "None"
     context = viewData(); context["viewShortTitle"]="Yearly expenses"; context["viewTitle"]="YearlyExpenses"
     context["monthlyData"] = monthlyData

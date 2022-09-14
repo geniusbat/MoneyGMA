@@ -8,12 +8,11 @@
     /*--kombu-green: #31493C;*/
 }
 
-html, body {margin: 0; height: 100%; overflow: hidden; background-color: var(--cultured-white)!important;}
+html, body {margin: 0; height: 100%; overflow: auto; background-color: var(--cultured-white)!important;}
 
 .content {
     padding: 0 1vw 0 1vw;
     font-weight: 620;
-    min-height: 100vh;
     background-color: var(--cultured-white);
 }
 

@@ -7,8 +7,7 @@ from .forms import *
 import json
 from Api.serializers import *
 import hashlib
-
-#TODO: Error, from 01-05-2022 goes to 31-05-2022 (does not skip month)
+from decimal import *
 
 #AUXILIAR
 def viewData()->dict:
@@ -23,19 +22,19 @@ def getMonthlyExpenses(year, monthNum):
     return JsonResponse(serializer.data, safe=False).content
 def getExpensesContext(expenses, date):
     context = {}
-    totalSum = 0
+    totalSum = Decimal(0)
     moneyPerCategory = dict()
     for i in expenses:
-        totalSum+=i["money"]
+        totalSum+=Decimal(i["money"])
         if i["category"] in moneyPerCategory:
-            moneyPerCategory[i["category"]]["percent"]+=i["money"]
+            moneyPerCategory[i["category"]]["percent"]+=Decimal(i["money"])
             
         else:
             if i["category"]==None:
                 color = "#E0D8B0"
             else:
                 color = ExpenseCategory.objects.get(pk=i["category"]).color
-            moneyPerCategory[i["category"]] = {"percent":i["money"], "color":color}
+            moneyPerCategory[i["category"]] = {"percent":Decimal(i["money"]), "color":color}
     for i in moneyPerCategory:
         moneyPerCategory[i]["expended"]=moneyPerCategory[i]["percent"]
         moneyPerCategory[i]["percent"]=(moneyPerCategory[i]["percent"]*100)/totalSum
@@ -129,10 +128,12 @@ def viewYearlyExpenses(request, year):
         monthlyExpenses = Expense.objects.filter(date__year=year,date__month=monthNum).aggregate(Sum("money"))["money__sum"]
         if monthlyExpenses == None:
             monthlyExpenses = 0
+        else:
+            monthlyExpenses = float(monthlyExpenses)
         monthlyData.append(monthlyExpenses)
         monthlylabels.append(monthNum)
     categoryLabels = [tp[0] for tp in list(ExpenseCategory.objects.values_list("type"))]; categoryLabels.insert(0,None)
-    categoryData = [Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"] if Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]!=None else 0 for cat in categoryLabels]
+    categoryData = [float(Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]) if Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]!=None else 0 for cat in categoryLabels]
     categoryLabels[0] = "None"
     context = viewData(); context["viewShortTitle"]="Yearly expenses"; context["viewTitle"]="YearlyExpenses"
     context["monthlyData"] = monthlyData
@@ -207,7 +208,7 @@ def editExpense(request, id):
 def viewCategories(request):
     template = "viewCategories.html"
     context = viewData(); context["viewShortTitle"]="Categories"; context["viewTitle"]="Categories"
-    categories = list(ExpenseCategory.objects.all().values())
+    categories = ExpenseCategory.objects.all()
     context["categories"] = categories
     return render(request, template, context)
 
@@ -255,9 +256,7 @@ def editCategory(request, name):
 def moneyPools(request):
     template = "moneyPools.html"
     context = viewData(); context["viewShortTitle"]="Money Pools"; context["viewTitle"]="Money Pools"
-    pools = list(MoneyPool.objects.all().values())
-    for pool in pools:
-        pool["expenses"] = list(MoneyPool.objects.get(pk=pool["id"]).expenses.values())
+    pools = (MoneyPool.objects.all())
     context["pools"] = pools
     context["editing"] = True
     return render(request, template, context)
@@ -266,7 +265,7 @@ def viewPoolExpenses(request, poolId):
         context = viewData(); context["viewShortTitle"]="View pool Expenses"; context["viewTitle"]="Viewing Expenses From Pool "
         try:
             pool = MoneyPool.objects.get(pk=poolId)
-            expenses = list(pool.expenses.all().values())
+            expenses = pool.expenses.all()
             for expense in expenses:
                 expense["date"] = str(expense["date"])
             context["viewTitle"] += pool.name

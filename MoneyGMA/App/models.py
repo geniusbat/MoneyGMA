@@ -20,7 +20,7 @@ class Expense(models.Model):
     date = models.DateField("Date","date", default=datetime.now)
     description = models.CharField("Description", max_length=90, blank=True, default="")
     category = models.ForeignKey(ExpenseCategory, to_field="type", on_delete=models.SET_DEFAULT, default=None, blank=True, null=True)
-    money = models.FloatField("Money expended", default=0.0)
+    money = models.DecimalField("Money expended", default=0.0, decimal_places=2, max_digits=18)
 
     class Meta:
         ordering = ['date']
@@ -35,6 +35,12 @@ class MoneyPool(models.Model):
     description = models.CharField("Description", max_length=90, blank=True, default="")
     money = models.IntegerField("Pool of Money")
     expenses = models.ManyToManyField(Expense, blank=True)
+    @property
+    def expended(self):
+        sum = 0
+        for expense in self.expenses.all():
+            sum += expense.money
+        return sum
 
     class Meta:
         ordering = ['name']

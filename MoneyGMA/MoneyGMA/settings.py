@@ -20,10 +20,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.setdefault('MGMA_KEY', "SuperSecretKey")
+SECRET_KEY = os.getenv('MGMA_KEY', "SuperSecretKey")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.setdefault('MGMA_DEBUG', "False")
+DEBUG = os.getenv('MGMA_DEBUG', "False")
 
 ALLOWED_HOSTS = ["*"]
 
@@ -94,9 +94,9 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.setdefault('MGMA_DB', "MoneyGMADB"),
-        'USER': os.environ.setdefault('MGMA_USER', "MGMAUSER"),
-        'PASSWORD': os.environ.setdefault('MGMA_PASS', "adminPass"),
+        'NAME': os.getenv('MGMA_DB', "MoneyGMADB"),
+        'USER': os.getenv('MGMA_USER', "MGMAUSER"),
+        'PASSWORD': os.getenv('MGMA_PASS', "adminPass"),
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -158,5 +158,5 @@ CSRF_TRUSTED_ORIGINS = [
     'https://moneygmav1.herokuapp.com'
 ]
 
-import django_heroku
-django_heroku.settings(locals())
+#import django_heroku
+#django_heroku.settings(locals())

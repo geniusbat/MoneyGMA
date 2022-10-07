@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv('MGMA_KEY', "SuperSecretKey")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('MGMA_DEBUG', "False")
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["172.26.3.45"]
 
 
 # Application definition
@@ -93,9 +93,9 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('MGMA_DB', "MoneyGMADB"),
-        'USER': os.getenv('MGMA_USER', "MGMAUSER"),
-        'PASSWORD': os.getenv('MGMA_PASS', "adminPass"),
+        'NAME': os.getenv('MGMA_DB', ""),
+        'USER': os.getenv('MGMA_USER', ""),
+        'PASSWORD': os.getenv('MGMA_PASS', ""),
         'HOST': 'localhost',
         'PORT': '5432'
     }
@@ -138,7 +138,7 @@ USE_TZ = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
@@ -146,14 +146,13 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://moneygmav1.herokuapp.com'
+    "172.26.3.45"
 ]
-
-#import django_heroku
-#django_heroku.settings(locals())

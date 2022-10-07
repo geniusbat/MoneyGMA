@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv('MGMA_KEY', "SuperSecretKey")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('MGMA_DEBUG', "False")
 
-ALLOWED_HOSTS = ["172.26.3.45", "15.188.228.145"]
+ALLOWED_HOSTS = ["172.26.3.45", "15.188.228.145", "localhost"]
 
 
 # Application definition

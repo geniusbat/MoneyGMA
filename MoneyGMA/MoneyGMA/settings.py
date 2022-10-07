@@ -23,7 +23,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('MGMA_KEY', "SuperSecretKey")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('MGMA_DEBUG', "False")
+if os.getenv('MGMA_DEBUG', "False") == "True":
+    DEBUG = True
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = ["172.26.3.45", "15.188.228.145", "localhost"]
 

@@ -8,4 +8,5 @@ urlpatterns = [
     path('expense/monthly/<int:monthNum>', getMonthlyExpenses), 
     path('expense/<int:pk>/', ExpenseDetail.as_view()),
     path('pools', getPools), 
+    path('errorView', errorView), 
 ]

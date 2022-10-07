@@ -100,3 +100,7 @@ def getPools(request):
     pools = MoneyPool.objects.all()
     serializer = MoneyPoolSerializer(pools, many=True)
     return JsonResponse(serializer.data, safe=False)
+
+@api_view(['GET'])
+def errorView(request):
+    pass

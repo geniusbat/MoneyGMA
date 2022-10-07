@@ -146,6 +146,8 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
+print(STATIC_ROOT)
+
 
 
 # Default primary key field type
@@ -154,6 +156,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://172.26.3.45",
-    "http://172.26.3.45"
+    "https://localhost",
+    "http://localhost"
 ]

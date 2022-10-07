@@ -1,3 +1,6 @@
+from decimal import Decimal
+import json
+from unicodedata import category
 from django.shortcuts import redirect, render
 from .serializers import *
 from rest_framework.views import APIView
@@ -100,3 +103,21 @@ def getPools(request):
     pools = MoneyPool.objects.all()
     serializer = MoneyPoolSerializer(pools, many=True)
     return JsonResponse(serializer.data, safe=False)
+
+@api_view(["POST"])
+def updateExpenses(request):
+    data = json.loads(request.body.decode('utf-8'))
+    print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    print(data)
+    for expense in data:
+        try:
+            cat = ExpenseCategory.objects.filter(type=expense["category"]).first()
+        except:
+            print("Failed to find category: " + expense["category"])
+            cat = None
+        if cat != None:
+            ins = Expense(date = datetime.strptime(expense["date"],"%Y-%m-%d"), description=expense["description"], money = Decimal(expense["money"]), category = cat)
+        else: 
+            ins = Expense(date = datetime.strptime(expense["date"],"%Y-%m-%d"), description=expense["description"], money = Decimal(expense["money"]))
+        ins.save()
+    return JsonResponse("", safe=False)

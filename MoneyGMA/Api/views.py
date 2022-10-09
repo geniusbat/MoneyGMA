@@ -104,7 +104,6 @@ def getPools(request):
     serializer = MoneyPoolSerializer(pools, many=True)
     return JsonResponse(serializer.data, safe=False)
 
-<<<<<<< HEAD
 @api_view(["POST"])
 def updateExpenses(request):
     data = json.loads(request.body.decode('utf-8'))
@@ -122,8 +121,8 @@ def updateExpenses(request):
             ins = Expense(date = datetime.strptime(expense["date"],"%Y-%m-%d"), description=expense["description"], money = Decimal(expense["money"]))
         ins.save()
     return JsonResponse("", safe=False)
-=======
+
+
 @api_view(['GET'])
 def errorView(request):
     pass
->>>>>>> awsDeploymentTest

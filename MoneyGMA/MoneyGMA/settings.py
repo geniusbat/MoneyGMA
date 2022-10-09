@@ -20,12 +20,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.setdefault('MGMA_KEY', "SuperSecretKey")
+SECRET_KEY = os.getenv('MGMA_KEY', "SuperSecretKey")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.setdefault('MGMA_DEBUG', "False")
+if os.getenv('MGMA_DEBUG', "False") == "True":
+    DEBUG = True
+else:
+    DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["172.26.3.45", "15.188.228.145", "localhost"]
 
 
 # Application definition
@@ -41,7 +44,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     "colorfield",
     "Api",
-    "App",
+    "App"
 ]
 
 MIDDLEWARE = [
@@ -60,7 +63,7 @@ ROOT_URLCONF = 'MoneyGMA.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["templates"],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -90,15 +93,14 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.setdefault('MGMA_DB', "MoneyGMADB"),
-        'USER': os.environ.setdefault('MGMA_USER', "MGMAUSER"),
-        'PASSWORD': os.environ.setdefault('MGMA_PASS', "adminPass"),
+        'NAME': os.getenv('MGMA_DB', ""),
+        'USER': os.getenv('MGMA_USER', ""),
+        'PASSWORD': os.getenv('MGMA_PASS', ""),
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5432'
     }
 }
 
@@ -139,15 +141,17 @@ USE_TZ = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-STATIC_ROOT = [
-    os.path.join(BASE_DIR, 'static_root'),
-]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
+
+print(STATIC_ROOT)
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -155,8 +159,6 @@ STATIC_ROOT = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://moneygmav1.herokuapp.com'
+    "https://localhost",
+    "http://localhost"
 ]
-
-import django_heroku
-django_heroku.settings(locals())

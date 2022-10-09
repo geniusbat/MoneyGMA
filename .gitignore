@@ -9,6 +9,9 @@ __pycache__/
 # C extensions
 *.so
 
+static_root/
+.dataPrev
+
 # Distribution / packaging
 .Python
 build/

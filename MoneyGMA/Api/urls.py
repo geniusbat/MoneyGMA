@@ -9,4 +9,5 @@ urlpatterns = [
     path('expense/<int:pk>/', ExpenseDetail.as_view()),
     path('expense/update', updateExpenses), 
     path('pools', getPools), 
+    path('errorView', errorView), 
 ]

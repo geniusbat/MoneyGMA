@@ -66,14 +66,14 @@ def getMonthlyExpenses(request, monthNum):
 
 class ExpenseDetail(APIView):
     def getObject(self, id):
-        print("EXPENSEDETAILAAAAAAAAAAAAAAAAAAAA")
+        #print("EXPENSEDETAILAAAAAAAAAAAAAAAAAAAA")
         try:
             return Expense.objects.get(pk=id)
         except Expense.DoesNotExist:
             raise Http404
 
     def get(self, request, id):
-        print("EXPENSEDETAILFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+        #print("EXPENSEDETAILFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
         #expenses = Expense.objects.get(pk=id)
         expenses = Expense.objects.filter(pk=id)[0]
         serializer = ExpenseSerializer(expenses, many=True)
@@ -107,13 +107,13 @@ def getPools(request):
 @api_view(["POST"])
 def updateExpenses(request):
     data = json.loads(request.body.decode('utf-8'))
-    print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-    print(data)
+    #print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
+    #print(data)
     for expense in data:
         try:
             cat = ExpenseCategory.objects.filter(type=expense["category"]).first()
         except:
-            print("Failed to find category: " + expense["category"])
+            #print("Failed to find category: " + expense["category"])
             cat = None
         if cat != None:
             ins = Expense(date = datetime.strptime(expense["date"],"%Y-%m-%d"), description=expense["description"], money = Decimal(expense["money"]), category = cat)

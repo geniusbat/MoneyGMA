@@ -81,7 +81,7 @@ def handleLogin(request):
 
 
 def index(request):
-    print(IsLogged(request))
+    #print(IsLogged(request))
     if not IsLogged(request):
         return HandleNonLog(request)
     template = "index.html"

@@ -22,3 +22,5 @@ server {
         client_max_body_size 20m;
     }
 }
+} -If to start postgres service: service postgresql start 
+-Change podman's root user account: podman exec -itu 0 {container} passwd

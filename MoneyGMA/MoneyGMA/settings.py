@@ -28,7 +28,7 @@ if os.getenv('MGMA_DEBUG', "False") == "True":
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ["172.26.3.45", "15.188.228.145", "localhost"]
+ALLOWED_HOSTS = ["172.26.3.45", "15.188.228.145", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -149,7 +149,7 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')
 
-print(STATIC_ROOT)
+#print(STATIC_ROOT)
 
 
 

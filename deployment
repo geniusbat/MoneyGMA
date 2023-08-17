@@ -22,5 +22,15 @@ server {
         client_max_body_size 20m;
     }
 }
-} -If to start postgres service: service postgresql start 
+-If to start postgres service: service postgresql start 
 -Change podman's root user account: podman exec -itu 0 {container} passwd
+
+-to crate API token: python MoneyGMA/manage.py drf_create_token admin
+
+Guide:
+-Install podman
+-Server listens to 80, an nginx instance will redirect it to the port of the rootless containers
+    -Gus' MoneyGMA 8122
+    -Claudia MoneyGMA 8123
+-Container env variables should be set up but make sure again
+-gunicorn --bind 0.0.0.0:<port> MoneyGMA.wsgi:application (add --daemon to run as daemon in the background)

@@ -11,6 +11,9 @@ from rest_framework.decorators import api_view
 import django.utils.timezone
 from django.http import JsonResponse
 
+from http import HTTPStatus
+from django.http import HttpResponse
+
 from App.models import *
 
 #DETAILED VIEWS STOPPED WORKING
@@ -120,7 +123,7 @@ def updateExpenses(request):
         else: 
             ins = Expense(date = datetime.strptime(expense["date"],"%Y-%m-%d"), description=expense["description"], money = Decimal(expense["money"]))
         ins.save()
-    return JsonResponse("", safe=False)
+    return HttpResponse(status=HTTPStatus.CREATED,)#JsonResponse("", safe=False)
 
 
 @api_view(['GET'])

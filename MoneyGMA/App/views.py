@@ -267,7 +267,7 @@ def viewPoolExpenses(request, poolId):
             pool = MoneyPool.objects.get(pk=poolId)
             expenses = pool.expenses.all()
             for expense in expenses:
-                expense["date"] = str(expense["date"])
+                expense.date = str(expense.date)
             context["viewTitle"] += pool.name
             return partiallyViewExpenses(request,expenses,context)
         except MoneyPool.DoesNotExist:

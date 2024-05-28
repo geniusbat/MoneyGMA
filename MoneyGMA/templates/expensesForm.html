@@ -27,11 +27,14 @@
                 <button  type="button" onClick="deselectAll()">Deselect options</button>
             </div>
             <br>
-            <input type="submit" value="{{ formSubmit|safe }}">
-            <br> <br>
             {% if editing %}
+                <input type="number" name="addToExpenseInput" id="addToExpenseInput" min="0" step="0.01">
+                <button  type="button" onClick="addToExpense()">Add to expense</button>
+                <br> <br>
                 <input type="submit" value="Delete" name="deleteInstance">
+                <br> <br>
             {% endif %}
+            <input type="submit" value="{{ formSubmit|safe }}">
         </form>
     {% endblock formContent %}
     {% block afterForm %}{% endblock afterForm %}

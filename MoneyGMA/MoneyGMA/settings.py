@@ -28,7 +28,7 @@ if os.getenv('MGMA_DEBUG', "False") == "True":
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ["172.26.3.45", "15.188.228.145", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["moneygma.duckdns.org", "localhost", "127.0.0.1"] #Add current instace ip
 
 
 # Application definition

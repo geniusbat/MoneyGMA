@@ -21,9 +21,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('MGMA_KEY', "SuperSecretKey")
+#SECRET_KEY = os.getenv('MGMA_KEY_gus', "SuperSecretKey")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if os.getenv('MGMA_DEBUG', "False") == "True":
+#if os.getenv('MGMA_DEBUG_gus', "False") == "True":  for deployment
     DEBUG = True
 else:
     DEBUG = False
@@ -104,6 +106,18 @@ DATABASES = {
     }
 }
 
+#For deployment
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('MGMA_DB_gus', ""),
+        'USER': os.getenv('MGMA_USER_gus', ""),
+        'PASSWORD': os.getenv('MGMA_PASS_gus', ""),
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
+}'''
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators

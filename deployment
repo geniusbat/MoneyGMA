@@ -1,3 +1,5 @@
+https://realpython.com/django-nginx-gunicorn/#incorporating-nginx
+
 1) Gunicorn server: gunicorn --bind 0.0.0.0:8000 MoneyGMA.wsgi:application
 
 or 
@@ -33,4 +35,4 @@ Guide:
     -Gus' MoneyGMA 8122
     -Claudia MoneyGMA 8123
 -Container env variables should be set up but make sure again
--gunicorn --bind 0.0.0.0:<port> MoneyGMA.wsgi:application (add --daemon to run as daemon in the background)
+-gunicorn --bind <ip>:<port> --error-logfile /home/MoneyGMA/gunicorn-access.log MoneyGMA.wsgi:application (add --daemon to run as daemon in the background) (better use local host 127.0.0.1)

@@ -1,0 +1,28 @@
+name: "mgma-cont"
+services:
+    moneygma-initial:
+        hostname: 449664a51145
+        environment:
+            - LANG=C.UTF-8
+            - MGMA_HOST=host.docker.internal
+            - PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+            - MGMA_DB=<db_info>
+            - MGMA_PASS=<db_info>
+            - PYTHON_PIP_VERSION=24.0
+            - PYTHONUNBUFFERED=1
+            - MGMA_USER=<db_info>
+            - PYTHON_VERSION=3.12.4
+            - PYTHON_GET_PIP_URL=https://github.com/pypa/get-pip/raw/66d8a0f637083e2c3ddffc0cb1e65ce126afb856/public/get-pip.py
+            - PYTHON_GET_PIP_SHA256=6fb7b781206356f45ad79efbb19322caa6c2a5ad39092d0d44d0fec94117e118
+            - MGMA_DEBUG=True
+        network_mode: bridge
+        working_dir: /MoneyGMA
+        ports:
+            - 8122:8122
+        restart: no
+        runtime: runc
+        tty: true
+        image: moneygma-initial:latest
+        command: >
+            bash -c "python MoneyGMA/manage.py makemigrations && python MoneyGMA/manage.py migrate
+            && python MoneyGMA/manage.py runserver 0.0.0.0:8122"

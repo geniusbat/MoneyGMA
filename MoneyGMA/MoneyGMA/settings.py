@@ -101,7 +101,7 @@ DATABASES = {
         'NAME': os.getenv('MGMA_DB', ""),
         'USER': os.getenv('MGMA_USER', ""),
         'PASSWORD': os.getenv('MGMA_PASS', ""),
-        'HOST': 'localhost',
+        'HOST': os.getenv('MGMA_HOST', 'localhost'),
         'PORT': '5432'
     }
 }

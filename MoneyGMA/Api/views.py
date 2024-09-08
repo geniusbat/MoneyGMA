@@ -16,13 +16,21 @@ from django.http import HttpResponse
 
 from App.models import *
 
-#DETAILED VIEWS STOPPED WORKING
+#08/09/2024: Put method doesnt seem to be actually updating
+#Make sure that you have a trailing slash in the url (ie: moneygma.com/apicall/ except moneygma.com/apicall)
 
 class ExpenseCategoryList(APIView):
     def get(self, request):
         categories = ExpenseCategory.objects.all()
         serializer = ExpenseCategorySerializer(categories, many=True)
         return JsonResponse(serializer.data, safe=False)
+
+    def post(self, request):
+        serializer = ExpenseCategorySerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, safe=False)
+        return JsonResponse(serializer.errors, safe=False)
 
 class ExpenseCategoryDetail(APIView):
     def getObject(self, id):
@@ -33,7 +41,7 @@ class ExpenseCategoryDetail(APIView):
 
     def get(self, request, id):
         category = ExpenseCategory.objects.get(pk=id)
-        serializer = ExpenseCategorySerializer(category, many=True)
+        serializer = ExpenseCategorySerializer(category)
         return JsonResponse(serializer.data, safe=False)
 
     def post(self, request):
@@ -76,10 +84,8 @@ class ExpenseDetail(APIView):
             raise Http404
 
     def get(self, request, id):
-        #print("EXPENSEDETAILFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-        #expenses = Expense.objects.get(pk=id)
         expenses = Expense.objects.filter(pk=id)[0]
-        serializer = ExpenseSerializer(expenses, many=True)
+        serializer = ExpenseSerializer(expenses, many=False)
         return JsonResponse(serializer.data, safe=False)
 
     def post(self, request):
@@ -88,8 +94,8 @@ class ExpenseDetail(APIView):
             serializer.save()
             return JsonResponse(serializer.data, safe=False)
         return JsonResponse(serializer.errors, safe=False)
-        
-    def put(self, request, id):
+         
+    def put(self, request, id): 
         expenses = Expense.objects.get(pk=id)
         serializer = ExpenseSerializer(expenses, data=request.data)
         if serializer.is_valid():
@@ -100,24 +106,29 @@ class ExpenseDetail(APIView):
     def delete(self, request):
         pass
 
+class PoolsList(APIView):
+    def get(self, request):
+        pools = MoneyPool.objects.all()
+        serializer = MoneyPoolSerializer(pools, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
-@api_view(['GET'])
-def getPools(request):
-    pools = MoneyPool.objects.all()
-    serializer = MoneyPoolSerializer(pools, many=True)
-    return JsonResponse(serializer.data, safe=False)
+    def post(self, request):
+        serializer = MoneyPoolSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, safe=False)
+        return JsonResponse(serializer.errors, safe=False)
 
 @api_view(["POST"])
 def updateExpenses(request):
     data = json.loads(request.body.decode('utf-8'))
-    #print("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF")
-    #print(data)
     for expense in data:
+        #Get category of expense, if it fails it probably means that category doesnt exist (not a default category)
         try:
             cat = ExpenseCategory.objects.filter(type=expense["category"]).first()
         except:
-            #print("Failed to find category: " + expense["category"])
-            cat = None
+            cat = ExpenseCategory(type=expense["category"], description="Category was automatically created")
+            cat.save()
         if cat != None:
             ins = Expense(date = datetime.strptime(expense["date"],"%Y-%m-%d"), description=expense["description"], money = Decimal(expense["money"]), category = cat)
         else: 

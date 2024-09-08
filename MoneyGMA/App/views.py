@@ -124,22 +124,27 @@ def viewYearlyExpenses(request, year):
     template = "viewYearlyExpenses.html"
     monthlyData = []
     monthlylabels = []
+    totalExpense = 0
     for monthNum in range(1,13):
         monthlyExpenses = Expense.objects.filter(date__year=year,date__month=monthNum).aggregate(Sum("money"))["money__sum"]
         if monthlyExpenses == None:
             monthlyExpenses = 0
         else:
             monthlyExpenses = float(monthlyExpenses)
+        totalExpense += monthlyExpenses
         monthlyData.append(monthlyExpenses)
-        monthlylabels.append(monthNum)
+        numToName = {1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June", 7: "July", 8: "August", 9: "September", 10: "October", 11: "November", 12: "December" }
+        monthlylabels.append(numToName[monthNum])
     categoryLabels = [tp[0] for tp in list(ExpenseCategory.objects.values_list("type"))]; categoryLabels.insert(0,None)
     categoryData = [float(Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]) if Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]!=None else 0 for cat in categoryLabels]
     categoryLabels[0] = "None"
     context = viewData(); context["viewShortTitle"]="Yearly expenses"; context["viewTitle"]="YearlyExpenses"
+    context["year"] = year
     context["monthlyData"] = monthlyData
     context["monthlylabels"] = monthlylabels
     context["categoryData"] = categoryData
     context["categorylabels"] = categoryLabels
+    context["totalExpense"] = totalExpense
     return render(request, template, context)
 
 def viewYearExpenses(request):

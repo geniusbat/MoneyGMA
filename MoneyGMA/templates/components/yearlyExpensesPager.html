@@ -1,0 +1,17 @@
+<form class="yearPager" action="" method="post" name="yearChangeForm">
+    {% csrf_token %}
+    <input type="submit" value="<" name="yearPager-left" class="yearPager-pager" onclick="changeYear({{year|add:"-1"}});">
+    <span>{{ year }}</span>
+    <input type="hidden" name="currentYear" value="{{ year | safe }}">
+    <input type="submit" value=">" name="yearPager-right" class="yearPager-pager" onclick="changeYear({{year|add:"+1"}});">
+</form>
+
+<script>
+    function changeYear(changeYear)
+    {
+    console.log("changeYear");
+    var url = "{% url 'viewYearlyExpenses' 1111111 %}";
+    url = url.replace("1111111", changeYear);
+    document.yearChangeForm.action =url;
+    }
+</script>

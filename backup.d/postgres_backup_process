@@ -1,0 +1,9 @@
+#To dump (meaning store) db into a file
+pg_dump -U MGMA_USER -d $MGMA_DB -f files/mgma_backup.sql
+tar -czf files/mgma_backup.tar.gz files/mgma_backup.sql --remove-files
+
+#To restore db from file from psql:
+#To extract sql file
+1) tar -xzvf files/mgma_backup.tar.gz
+2) createdb -U $MGMA_USER $MGMA_DB
+3) psql -U $MGMA_USER -d $MGMA_DB -f files/mgma_backup.sql

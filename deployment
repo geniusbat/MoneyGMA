@@ -37,4 +37,3 @@ Guide:
 -Container env variables should be set up but make sure again
 -gunicorn --bind <ip>:<port> --error-logfile /home/MoneyGMA/gunicorn-access.log MoneyGMA.wsgi:application (add --daemon to run as daemon in the background) (better use local host 127.0.0.1)
     -Usual snippet: gunicorn --bind 127.0.0.1:8122 --error-logfile /home/MoneyGMA/gunicorn-access.log MoneyGMA.wsgi:application --daemon
-

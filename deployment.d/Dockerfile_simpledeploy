@@ -3,11 +3,11 @@ FROM python:3.12.4
 WORKDIR /MoneyGMA
 
 ENV PYTHONUNBUFFERED=1
-ENV MGMA_DB=<variable>
-ENV MGMA_PASS=<variable>
-ENV MGMA_USER=<variable>
-ENV MGMA_DEBUG=<variable>
-ENV MGMA_KEY=<variable>
+ENV MGMA_DB=MGMA_DB
+ENV MGMA_PASS=MGMA_PASS
+ENV MGMA_USER=MGMA_USER
+ENV MGMA_DEBUG=MGMA_DEBUG
+ENV MGMA_KEY=MGMA_KEY
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

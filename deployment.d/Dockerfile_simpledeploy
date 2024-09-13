@@ -13,7 +13,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+RUN chmod +x deployment.d/simple_start.sh
 
 EXPOSE 8122
 
-CMD ["gunicorn","--bind", ":8122", "MoneyGMA/MoneyGMA.wsgi:application"]
+#CMD ["gunicorn","--bind", ":8122", "MoneyGMA/MoneyGMA.wsgi:application"]
+CMD ["deployment.d/simple_start.sh"]

@@ -1,0 +1,19 @@
+FROM python:3.12.4
+
+WORKDIR /MoneyGMA
+
+ENV PYTHONUNBUFFERED=1
+ENV MGMA_DB=<variable>
+ENV MGMA_PASS=<variable>
+ENV MGMA_USER=<variable>
+ENV MGMA_DEBUG=<variable>
+ENV MGMA_KEY=<variable>
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8122
+
+CMD ["gunicorn","--bind", ":8122", "MoneyGMA/MoneyGMA.wsgi:application"]

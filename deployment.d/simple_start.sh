@@ -1,5 +1,4 @@
 #!/bin/bash
-cd ..
 python3 MoneyGMA/manage.py makemigrations
 python3 MoneyGMA/manage.py migrate
 python3 MoneyGMA/manage.py migrate --run-syncdb

@@ -30,7 +30,7 @@ if os.getenv('MGMA_DEBUG', "False") == "True":
 else:
     DEBUG = False
 
-ALLOWED_HOSTS = ["moneygmaaux.duckdns.org", "moneygma.duckdns.org", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [".moneygmaaux.duckdns.org", ".moneygma.duckdns.org", "localhost", "127.0.0.1", ".gmaservices.duckdns.org"]
 
 
 # Application definition

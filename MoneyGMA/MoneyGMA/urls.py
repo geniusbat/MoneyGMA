@@ -15,16 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from os import getenv
 
-urlpatterns = [
-    re_path(r'^(?:moneygma)?/admin/', admin.site.urls),
-    re_path(r"^(?:moneygma)?/", include("App.urls")),
-    re_path(r"^(?:moneygma)?/api/", include("Api.urls")),
-]
-'''
-[
+aux_url_patterns = [
     path('admin/', admin.site.urls),
     path("", include("App.urls")),
     path("api/", include("Api.urls")),
 ]
-'''
+
+if getenv('MGMA_PREFIX_DOMAIN', "False") == "True":
+    urlpatterns = [
+        path("moneygma/", include(aux_url_patterns)),
+    ]
+else:
+    urlpatterns = [
+        path("", include(aux_url_patterns)),
+    ]

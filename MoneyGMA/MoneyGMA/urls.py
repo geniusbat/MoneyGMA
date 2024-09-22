@@ -16,18 +16,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from os import getenv
+from django.conf import settings
+from django.conf.urls.static import static
 
-aux_url_patterns = [
-    path('admin/', admin.site.urls),
-    path("", include("App.urls")),
-    path("api/", include("Api.urls")),
-]
 
 if getenv('MGMA_PREFIX_DOMAIN', "False") == "True":
     urlpatterns = [
-        path("moneygma/", include(aux_url_patterns)),
-    ]
+        path('moneygma/admin/', admin.site.urls),
+        path("moneygma/", include("App.urls")),
+        path("moneygma/api/", include("Api.urls")),
+    ] + static("moneygma/"+settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 else:
     urlpatterns = [
-        path("", include(aux_url_patterns)),
-    ]
+        path('admin/', admin.site.urls),
+        path("", include("App.urls")),
+        path("api/", include("Api.urls")),
+    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

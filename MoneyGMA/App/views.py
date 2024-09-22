@@ -8,6 +8,7 @@ import json
 from Api.serializers import *
 import hashlib
 from decimal import *
+from os import getenv
 
 #AUXILIAR
 def viewData()->dict:
@@ -103,7 +104,10 @@ def changeMonth(request):
         expenses = json.loads(getMonthlyExpenses(date.today().year, currentDate.month))
         context = context | getExpensesContext(expenses, currentDate)
         dateAsString = currentDate.strftime('%d-%m-%Y')
-        return HttpResponseRedirect("/"+dateAsString)
+        if getenv('MGMA_PREFIX_DOMAIN', "False") == "True":
+            return HttpResponseRedirect("/moneygma/"+dateAsString)
+        else:    
+            return HttpResponseRedirect("/"+dateAsString)
     else:
         return redirect("index")
 

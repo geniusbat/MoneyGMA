@@ -25,7 +25,7 @@ if getenv('MGMA_PREFIX_DOMAIN', "False") == "True":
         path('moneygma/admin/', admin.site.urls),
         path("moneygma/", include("App.urls")),
         path("moneygma/api/", include("Api.urls")),
-    ] + static("moneygma/"+settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 else:
     urlpatterns = [
         path('admin/', admin.site.urls),

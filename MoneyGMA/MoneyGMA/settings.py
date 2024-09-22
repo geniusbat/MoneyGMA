@@ -155,7 +155,10 @@ USE_TZ = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-STATIC_URL = '/static/'
+if os.getenv('MGMA_PREFIX_DOMAIN', "False") == "True":
+    STATIC_URL = '/moneygma/static/'
+else:
+    STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),

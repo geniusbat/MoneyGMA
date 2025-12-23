@@ -1,0 +1,23 @@
+FROM python:3.12.4-slim
+
+WORKDIR /MoneyGMA
+
+ENV PYTHONUNBUFFERED=1
+ENV MGMA_DB=mgma_
+ENV MGMA_PASS=""
+ENV MGMA_USER=mgma_
+ENV MGMA_DEBUG="True"
+ENV MGMA_KEY=""
+ENV MGMA_PREFIX_DOMAIN="False"
+
+COPY requirements.txt .
+RUN apt-get update && apt-get install -y gcc zlib1g-dev libjpeg62-turbo-dev
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+RUN chmod +x deployment.d/simple_start.sh
+
+EXPOSE 8122
+
+#CMD ["gunicorn","--bind", ":8122", "MoneyGMA/MoneyGMA.wsgi:application"]
+CMD ["deployment.d/simple_start.sh"]

@@ -140,7 +140,7 @@ def viewYearlyExpenses(request, year):
         numToName = {1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June", 7: "July", 8: "August", 9: "September", 10: "October", 11: "November", 12: "December" }
         monthlylabels.append(numToName[monthNum])
     categoryLabels = [tp[0] for tp in list(ExpenseCategory.objects.values_list("type"))]; categoryLabels.insert(0,None)
-    categoryData = [float(Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]) if Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]!=None else 0 for cat in categoryLabels]
+    categoryData = [float(Expense.objects.filter(date__year=year).filter(category=cat).aggregate(Sum("money"))["money__sum"]) if Expense.objects.filter(category=cat).aggregate(Sum("money"))["money__sum"]!=None else 0 for cat in categoryLabels]
     categoryLabels[0] = "None"
     context = viewData(); context["viewShortTitle"]="Yearly expenses"; context["viewTitle"]="YearlyExpenses"
     context["year"] = year

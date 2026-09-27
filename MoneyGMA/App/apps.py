@@ -18,6 +18,7 @@ def AutoCreateInstances(sender, **kwargs):
         "restaurants" : {"description":"Eating in restaurants and ordering food","color":"#EAF27C"},
         "hobbies" : {"description":"Expenses related to hobbies and entertainment","color":"#F4C095"},
         "housing" : {"description":"Expenses related to housing","color":"#00916E"},
+        "health" : {"description":"Expenses related to health","color":"#D25A5A"},
     }
     from .models import ExpenseCategory
     for category in categories:
